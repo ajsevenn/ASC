@@ -1,0 +1,891 @@
+{
+  "policies": {
+    "alaska": {
+      "name": "Alaska Airlines",
+      "domestic": "02H:01M or more than 120 minutes",
+      "international": "02H:01M or more than 120 minutes",
+      "minor": "If the schedule change is 120 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change exceeds 120 minutes, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+      "reissueCode": "ASSC",
+      "reissuePlacement": "Enter ASSC in the Tour Code Box.",
+      "reissueApplies": "Eligible schedule-change reissues governed by Alaska Airlines policy on 027 ticket stock.",
+      "reissueConditions": [
+        "Rebook for the day before, the same day, or the day after the original travel date.",
+        "Use an Alaska-operated or Alaska-marketed codeshare flight.",
+        "Book the original class when available. Otherwise, book the lowest available class in the same cabin.",
+        "Keep the same routing when possible. A connection may be added or removed, and co-terminals may be used when necessary.",
+        "Reissue as an even exchange and enter ASSC in the Tour Code Box.",
+        "Only one waiver reissue is allowed. Any later change is voluntary and normal fare rules apply.",
+        "Add an OSI explaining the schedule-change reaccommodation and document that the Pax was notified."
+      ],
+      "refundCode": "No permanent public universal code confirmed",
+      "refundPlacement": "Follow the applicable refund procedure in the booking system or contact Alaska Airlines Agency Support.",
+      "important": [
+        "Do not use ASSC as a refund waiver unless specifically authorized.",
+        "Only one reissue using the schedule-change waiver is permitted.",
+        "Verify the validating carrier and ticket stock before processing."
+      ]
+    },
+    "american": {
+      "name": "American Airlines",
+      "domestic": "01H:01M or 61 minutes",
+      "international": "01H:01M or 61 minutes",
+      "minor": "If the schedule change is 60 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change is 61 minutes or more, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+      "reissueCode": "SKCHG",
+      "reissuePlacement": "Add SKCHG at the beginning of the Endorsement Box.",
+      "reissueApplies": "Eligible domestic and international schedule-change reissues on American Airlines 001 ticket stock.",
+      "reissueConditions": [
+        "The policy applies to a planned schedule change received more than 72 hours before departure.",
+        "If the ticket contains only AA Prime flights, revalidation may be used when the same inventory and routing, including the connection point, are retained.",
+        "A reissue is required when the ticket contains an AA codeshare or other-airline Prime flight, or when AA Prime space does not qualify for revalidation.",
+        "For changes of 61 minutes or more, follow American's applicable carrier, inventory, cabin, routing, and travel-date guidelines in SalesLink.",
+        "For Basic Economy, AA Prime flights must remain in B inventory. Select another eligible flight if B inventory is unavailable.",
+        "Complete the reissue or revalidation when the alternate itinerary is booked, and meet the SSR ADTK deadline.",
+        "Place SKCHG at the beginning of the Endorsement Box."
+      ],
+      "refundCode": "SCRFND",
+      "refundPlacement": "Enter SCRFND in the refund waiver-code field. For BSP processing, include the reason for refund and SCRFND in the BSP Refund Application when applicable.",
+      "important": [
+        "Use SKCHG for an eligible reissue.",
+        "Use SCRFND for an eligible refund.",
+        "Do not use SCRFND for ticket reissue.",
+        "Free rebooking eligibility does not automatically mean the ticket qualifies for a refund."
+      ]
+    },
+    "delta": {
+      "name": "Delta Air Lines",
+      "domestic": "03H:00M or 180 minutes",
+      "international": "06H:00M or 360 minutes",
+      "minor": "If the applicable change is less than 180 minutes for a domestic itinerary or less than 360 minutes for an international itinerary, it does not meet the significant time-change threshold. If no other qualifying condition applies, accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the applicable schedule change is 180 minutes or more for a domestic itinerary or 360 minutes or more for an international itinerary, the Pax may be eligible for complimentary rebooking or a refund under Delta's policy.",
+      "reissueCode": "OSI DL REISSUE DUE TO DL INVOL",
+      "reissuePlacement": "Add the OSI message to the PNR, then reissue according to Delta's policy. If Delta already revalidated the ticket and the Pax accepts the change, add OSI DL ACCEPT DUE TO DL INVOL.",
+      "reissueApplies": "Eligible itineraries on Delta 006 ticket stock covered by the current policy.",
+      "reissueConditions": [
+        "Reconcile the PNR by removing the old or changed segments.",
+        "If the PNR and electronic ticket match because Delta already revalidated the ticket, do not reissue. Add OSI DL ACCEPT DUE TO DL INVOL after the Pax accepts.",
+        "If reissue is required, keep the same origin and destination, or use an allowed alternate airport within 100 miles.",
+        "Book the same cabin. Use the same class when available; Main Cabin may be booked up to Y, while other cabins use the next available class in the same cabin.",
+        "Travel may be moved up to two days before or two days after the original date.",
+        "Use a Delta-marketed and Delta-operated or Delta Connection flight. Within 72 hours, limited same-day JV partner options may apply.",
+        "Reissue as an even exchange, add OSI DL REISSUE DUE TO DL INVOL, and notify the Pax. No waiver code is required."
+      ],
+      "refundCode": "No permanent public universal refund code confirmed",
+      "refundPlacement": "Follow Delta's schedule-change refund procedure and required PNR documentation.",
+      "important": [
+        "Verify the ticket issue date because older tickets may have different thresholds.",
+        "The qualifying time conditions specifically include an earlier departure or later arrival.",
+        "Check whether Delta already revalidated the ticket before reissuing."
+      ]
+    },
+    "hawaiian": {
+      "name": "Hawaiian Airlines",
+      "domestic": "02H:01M or more than 120 minutes",
+      "international": "02H:01M or more than 120 minutes",
+      "minor": "If the schedule change is 120 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change exceeds 120 minutes, the Pax may be eligible for complimentary rebooking under the applicable schedule-change policy.",
+      "reissueCode": "Verify ticket stock",
+      "reissuePlacement": "For a Hawaiian-operated flight on Alaska 027 ticket stock governed by the joint policy, enter ASSC in the Tour Code Box. For Hawaiian 173 ticket stock, check the current agency procedure or contact Agency Support.",
+      "reissueApplies": "Depends on the validating carrier and ticket stock.",
+      "reissueConditions": [
+        "First verify the validating carrier and ticket stock.",
+        "For a Hawaiian-operated flight on Alaska 027 ticket stock governed by the joint policy, use the Alaska schedule-change conditions.",
+        "Rebook for the day before, the same day, or the day after the original travel date.",
+        "Use eligible Alaska or Hawaiian flights permitted by the current joint policy, in the original class when possible or the lowest available class in the same cabin.",
+        "Enter ASSC in the Tour Code Box only when the 027-ticket-stock policy applies.",
+        "For Hawaiian 173 ticket stock, do not assume ASSC applies. Check the current agency procedure or contact Agency Support before reissuing."
+      ],
+      "refundCode": "No permanent public universal code confirmed",
+      "refundPlacement": "Follow the refund procedure applicable to the validating carrier and ticket stock.",
+      "important": [
+        "Do not automatically use ASSC on Hawaiian 173 ticket stock.",
+        "Verify whether the ticket was issued on 027 or 173 ticket stock.",
+        "If another carrier issued the ticket, follow the validating carrier's policy."
+      ]
+    },
+    "jetblue": {
+      "name": "JetBlue Airways",
+      "domestic": "01H:01M or 61 minutes",
+      "international": "01H:01M or 61 minutes",
+      "minor": "If the schedule change is 60 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change is 61 minutes or more, the Pax may be eligible for complimentary rebooking. Refund eligibility may require a change of 120 minutes or more or another qualifying disruption.",
+      "reissueCode": "Check current JetBlue waiver page",
+      "reissuePlacement": "Use the code and placement shown in the current JetBlue Schedule Change Policy or waiver-code instructions.",
+      "reissueApplies": "Eligible schedule changes on JetBlue 279 ticket stock, subject to the current policy.",
+      "reissueConditions": [
+        "Confirm that JetBlue 279 is the validating ticket stock and that the booking meets the current schedule-change policy.",
+        "Use the same city pair or an eligible co-located airport allowed by JetBlue.",
+        "Book within the travel window allowed for the size of the schedule change.",
+        "Use the same or lowest available eligible booking class as permitted by the current policy, then process an even exchange.",
+        "Cancel or refund associated EMDs before modifying flights because EMDs are not exchangeable. Repurchase any ancillary the Pax still wants.",
+        "Use the waiver code and placement shown on JetBlue's current waiver page. OPCANX is only for a qualifying operational cancellation when no dedicated event waiver exists."
+      ],
+      "refundCode": "Check current JetBlue waiver page",
+      "refundPlacement": "Follow the applicable ARC, BSP, or GDS refund instructions. OPCANX applies only to a qualifying operational cancellation when no dedicated event waiver is published.",
+      "important": [
+        "Do not use OPCANX as a general advance schedule-change code.",
+        "A 61-to-119-minute change may qualify for rebooking but not necessarily a refund to the original form of payment."
+      ]
+    },
+    "southwest": {
+      "name": "Southwest Airlines",
+      "domestic": "03H:00M or 180 minutes",
+      "international": "06H:00M or 360 minutes",
+      "minor": "If the change is less than 180 minutes for a domestic itinerary or less than 360 minutes for an international itinerary, it does not meet the significant time-change threshold. If no other qualifying condition applies, accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change is 180 minutes or more for a domestic itinerary or 360 minutes or more for an international itinerary, the Pax may be eligible for complimentary rebooking under the applicable policy.",
+      "reissueCode": "No single permanent universal code",
+      "reissuePlacement": "Check Southwest's current GDS Waiver Code Chart for the correct code format and placement.",
+      "reissueApplies": "Eligible schedule-change reissues processed through an authorized GDS.",
+      "reissueConditions": [
+        "Southwest does not permit agency ticket revalidation. Process the transaction as a reissue.",
+        "For an advance schedule change outside 72 hours, accept the reaccommodation or rebook the affected segment once.",
+        "The alternate flight must be within 14 days of the original travel date and use the same fare product.",
+        "Process an even exchange.",
+        "Enter WAIVESC followed by the affected four-digit flight number and six-digit affected flight date in MMDDYY format in the Endorsement field.",
+        "Use only unflown coupons for a partially used ticket.",
+        "If Southwest already reissued the ticket, further changes must be handled by Southwest."
+      ],
+      "refundCode": "No single permanent universal code",
+      "refundPlacement": "Check Southwest's current GDS Waiver Code Chart for the applicable schedule-change or IROP refund code and placement.",
+      "important": [
+        "Do not reuse a code from a previous booking or travel advisory.",
+        "Verify whether the case is a schedule change, IROP, cancellation, or active travel advisory."
+      ]
+    },
+    "united": {
+      "name": "United Airlines",
+      "domestic": "00H:31M or more than 30 minutes",
+      "international": "00H:31M or more than 30 minutes",
+      "minor": "If the schedule change is 30 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.",
+      "major": "If the schedule change exceeds 30 minutes, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+      "reissueCode": "No permanent public universal code confirmed",
+      "reissuePlacement": "Check United Jetstream or the applicable waiver notice for the correct code and ticketing instructions.",
+      "reissueApplies": "Eligible schedule-change rebooking, subject to ticket stock, operating carrier, and current agency policy.",
+      "reissueConditions": [
+        "For the public self-service option, the schedule change must exceed 30 minutes.",
+        "The replacement must be a United or United Express flight.",
+        "The new flight must depart from the same airport and within 24 hours of the original flight time.",
+        "For agency-issued tickets, verify validating carrier, ticket stock, inventory, cabin, and waiver or endorsement instructions in United Jetstream before reissuing.",
+        "If the required agency conditions are not visible or the requested option falls outside the published self-service limits, contact United Agency Support rather than guessing a waiver code."
+      ],
+      "refundCode": "No permanent public universal code confirmed",
+      "refundPlacement": "Follow United Jetstream refund instructions or contact United Agency Support.",
+      "important": [
+        "The replacement flight must meet United's rebooking conditions.",
+        "Do not use an expired weather or travel-advisory waiver for a standard schedule change."
+      ]
+    },
+    "aegean-airlines": {
+      "name": "Aegean Airlines",
+      "domestic": "Current public agency threshold not confirmed",
+      "international": "Current public agency threshold not confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Do not use the older publicly indexed 2020 instruction as current authority. Verify the live Aegean agent policy.",
+      "reissueApplies": "Current public official agency applicability was not sufficiently clear.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+        "An older public document refers to cancelled flights or time changes over one hour, but it is dated 2020 and must not be used as current authority."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund authority and processing directly with Aegean or its authenticated agent portal.",
+      "important": [
+        "Do not rely on an expired or old COVID-era rebooking document.",
+        "Verify ticket stock, operating carrier, point of sale, and whether the change is advance schedule change or day-of-travel disruption."
+      ]
+    },
+    "aer-lingus": {
+      "name": "Aer Lingus",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "air-canada": {
+      "name": "Air Canada",
+      "domestic": "Refund threshold: more than 03H:00M; free change available for qualifying schedule changes",
+      "international": "Refund threshold: more than 03H:00M; free change available for qualifying schedule changes",
+      "minor": "A departure-time change of three hours or less does not qualify for refund based on time difference alone, but a free change may be available. Other qualifying conditions can still apply.",
+      "major": "Refund and free-change eligibility may apply for departure or arrival changes over three hours, cancellation without suitable protection, protection over three hours from original time, routing or airport change, added connection, same-day connection failure, or misconnection.",
+      "reissueCode": "DUE SKCH",
+      "reissuePlacement": "Enter DUE SKCH in the Endorsement Box when a reissue is required.",
+      "reissueApplies": "Eligible 014 tickets and scenarios listed in Air Canada's current public travel-agent Schedule Change Policy; schedule change is defined as occurring more than 48 hours before original departure.",
+      "reissueConditions": [
+        "Action TK segments within 14 days of notification or seven business days before departure, whichever is earlier.",
+        "A flight-number change requires reissue. A time-only change normally does not require reissue.",
+        "Once the Pax accepts protection, later voluntary changes or refunds follow the fare rules.",
+        "For Air Canada schedule changes on other-airline ticket stock, follow the issuing carrier's policy."
+      ],
+      "refundCode": "Follow Air Canada refund procedure",
+      "refundPlacement": "Use the current Air Canada agent refund procedure for eligible 014 tickets; verify the live Agent Reference before processing.",
+      "important": [
+        "Policy applies to 014 ticket stock and listed eligible scenarios.",
+        "A better connection or earlier arrival that does not cause a misconnection is excluded.",
+        "Verify the live Air Canada Connex or Agent Reference before ticketing."
+      ]
+    },
+    "air-china": {
+      "name": "Air China",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "air-france": {
+      "name": "Air France",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current AF/KL schedule-change entry",
+      "reissuePlacement": "Follow the current Air France/KLM indirect-channel fulfillment instructions for 057 ticket stock.",
+      "reissueApplies": "Tickets on Air France 057 stock covered by the joint Air France/KLM policy.",
+      "reissueConditions": [
+        "Only one involuntary reissue is permitted for the same cancelled or delayed flight after airline reaccommodation.",
+        "Use the joint Air France/KLM policy and verify the current endorsement and waiver entry in the agent portal."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "air-new-zealand": {
+      "name": "Air New Zealand",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "ana-all-nippon-airways": {
+      "name": "ANA All Nippon Airways",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "SKCHG FLT NO./DATE/ROUTING",
+      "reissuePlacement": "Enter the waiver at the beginning of the Endorsement/Restriction Box, before the original endorsement.",
+      "reissueApplies": "Eligible ANA 205 tickets issued by agencies in the listed Americas points of sale.",
+      "reissueConditions": [
+        "Remove affected schedule-change segments.",
+        "Self-rebook only to the same carrier, same sector, and same booking class. Otherwise contact ANA Sales Support.",
+        "Reissue at least 24 hours before departure.",
+        "Only one change is permitted per schedule change. Process as an even exchange."
+      ],
+      "refundCode": "WITSKC",
+      "refundPlacement": "Use WITSKC for an eligible self-refund of an ANA-operated flight under the applicable point-of-sale policy. Contact ANA for other-airline operated flights.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "asiana-airlines": {
+      "name": "Asiana Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "austrian-airlines": {
+      "name": "Austrian Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current Lufthansa Group SKCHG/INVOL policy",
+      "reissuePlacement": "Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.",
+      "reissueApplies": "Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.",
+      "reissueConditions": [
+        "Determine whether the case is a planned SKCHG or short-term INVOL.",
+        "Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.",
+        "Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "british-airways": {
+      "name": "British Airways",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "brussels-airlines": {
+      "name": "Brussels Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current Lufthansa Group SKCHG/INVOL policy",
+      "reissuePlacement": "Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.",
+      "reissueApplies": "Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.",
+      "reissueConditions": [
+        "Determine whether the case is a planned SKCHG or short-term INVOL.",
+        "Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.",
+        "Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "cathay-pacific": {
+      "name": "Cathay Pacific",
+      "domestic": "Current 2026 public threshold not confirmed",
+      "international": "Current 2026 public threshold not confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+      "reissueCode": "Call airline / check Cathay Agents",
+      "reissuePlacement": "The publicly indexed detailed document found was for 2025 and expired December 31, 2025. Do not use its waiver or refund code as current 2026 authority.",
+      "reissueApplies": "Verify current Cathay 160-ticket policy by point of sale in Cathay Agents.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.",
+        "Current rules may differ by point of sale. Confirm booking class, travel window, rerouting, and waiver entry before reissue."
+      ],
+      "refundCode": "Call airline / check Cathay Agents",
+      "refundPlacement": "Confirm the current refund waiver and field in Cathay Agents for the ticket's point of sale.",
+      "important": [
+        "Do not use a 2025 TAM code or other expired regional code for a 2026 transaction.",
+        "Verify point of sale, 160 ticket stock, and current regional policy."
+      ]
+    },
+    "emirates-airlines": {
+      "name": "Emirates Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "etihad-airways": {
+      "name": "Etihad Airways",
+      "domestic": "02H:00M or 120 minutes",
+      "international": "02H:00M or 120 minutes",
+      "minor": "A change below 120 minutes does not qualify based on time alone, unless it creates a misconnection or another qualifying condition under the current policy.",
+      "major": "Involuntary options apply to a departure 120 minutes earlier or later, misconnection, cancellation, denied boarding from an outstation due to disruption, or equipment downgrade to a lower cabin.",
+      "reissueCode": "Verify current Etihad Hub waiver entry",
+      "reissuePlacement": "Align the itinerary and ticket, then revalidate or reissue as required using the current Etihad Hub instruction.",
+      "reissueApplies": "Eligible Etihad 607 documents under the Standard Schedule Change Policy, for changes occurring more than 72 hours before scheduled departure.",
+      "reissueConditions": [
+        "Use the cities shown on the ticket for the entire origin and destination.",
+        "First use another Etihad-operated flight; then the permitted codeshare or interline options in the policy order.",
+        "Use the same or lowest available booking class in the same cabin and brand where required; certain EY codeshares may permit up to four classes higher in the same cabin and brand.",
+        "Complete involuntary rebooking by the later of 60 days from notification or 60 days before original departure.",
+        "Confirm the live policy because Etihad Hub lists the Standard Schedule Change Policy as updated June 5, 2026."
+      ],
+      "refundCode": "Verify current Etihad Hub refund entry",
+      "refundPlacement": "For an eligible case, confirm the required refund entry in the current Etihad Hub policy before processing.",
+      "important": [
+        "One free change or refund of unused sectors may apply under the qualifying conditions.",
+        "Policy can differ for changes published on or before July 15, 2025."
+      ]
+    },
+    "eva-airways": {
+      "name": "EVA Airways",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "finnair": {
+      "name": "Finnair",
+      "domestic": "Refund eligibility: schedule change of at least 01H:00M",
+      "international": "Refund eligibility: schedule change of at least 01H:00M",
+      "minor": "For a schedule change under one hour, refund eligibility follows the ticket fare rules. Finnair may still ask the Pax to accept changes longer than five minutes.",
+      "major": "A full refund of unused portions is available when the Pax chooses not to travel due to a schedule change of at least one hour, an unsuitable cancellation alternative, no alternative, a delay over five hours, or qualifying overbooking.",
+      "reissueCode": "Check Finnair Easy standard disruption guidelines",
+      "reissuePlacement": "Detailed agency reissue entries are maintained in Finnair Easy. Verify the live handling-reservations instructions before processing.",
+      "reissueApplies": "Subject to Finnair ticket stock, operating carrier, booking channel, and current standard disruption guidelines.",
+      "reissueConditions": [
+        "Use Finnair Easy for the current agency handling and refund procedure.",
+        "If the agency-specific instruction is unavailable, contact Finnair agency support rather than guessing a waiver entry."
+      ],
+      "refundCode": "Follow Finnair Easy refund procedure",
+      "refundPlacement": "Use the current Finnair Easy refund workflow for agency-issued tickets.",
+      "important": [
+        "The one-hour figure is a public refund-eligibility threshold, not a complete agency self-reissue authority.",
+        "Confirm GDS or NDC handling in Finnair Easy."
+      ]
+    },
+    "iberia": {
+      "name": "Iberia",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "icelandair": {
+      "name": "Icelandair",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "japan-airlines": {
+      "name": "Japan Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "klm-royal-dutch-airlines": {
+      "name": "KLM-Royal Dutch Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current AF/KL schedule-change entry",
+      "reissuePlacement": "Follow the current Air France/KLM indirect-channel fulfillment instructions for 074 ticket stock.",
+      "reissueApplies": "Tickets on KLM 074 stock covered by the joint Air France/KLM policy.",
+      "reissueConditions": [
+        "Only one involuntary reissue is permitted for the same cancelled or delayed flight after airline reaccommodation.",
+        "Use the joint Air France/KLM policy and verify the current endorsement and waiver entry in the agent portal."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "korean-air": {
+      "name": "Korean Air",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "latam-airlines": {
+      "name": "LATAM Airlines",
+      "domestic": "Departure earlier by 16M+ or later by 31M+",
+      "international": "Departure earlier by 16M+ or later by 31M+",
+      "minor": "An advance up to 15 minutes or delay up to 30 minutes generally has no flexibility based on time alone.",
+      "major": "An advance of 16 minutes or more, delay of 31 minutes or more, cancellation, missed connection, destination/stop noncompliance, downgrade, or published exception may qualify.",
+      "reissueCode": "SKCHG + affected flight/route/date/status",
+      "reissuePlacement": "Use LATAM Trade’s current Endorsement format and add the required OSI documenting Pax acceptance.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Maintain origin and destination within ticket validity for a no-penalty/no-fare-difference change.",
+        "Nearby airports up to 500 km may be permitted under the published matrix.",
+        "Always verify the latest LATAM Trade matrix before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "lufthansa": {
+      "name": "Lufthansa",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current Lufthansa Group SKCHG/INVOL policy",
+      "reissuePlacement": "Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.",
+      "reissueApplies": "Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.",
+      "reissueConditions": [
+        "Determine whether the case is a planned SKCHG or short-term INVOL.",
+        "Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.",
+        "Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "philippine-airlines": {
+      "name": "Philippine Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "qantas-airways": {
+      "name": "Qantas Airways",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current Qantas schedule-change ticketing instruction",
+      "reissuePlacement": "Revalidate or reissue according to the applicable Qantas Agency Connect scenario.",
+      "reissueApplies": "Depends on whether the affected flight is QF-operated, QF-marketed, another-airline operated, and whether the ticket is on Qantas stock.",
+      "reissueConditions": [
+        "Rebook on the same day, one day either side, or the next available flight as allowed.",
+        "Use the same cabin and class, or the lowest available class in the same cabin where permitted.",
+        "All impacted tickets must be revalidated or reissued."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "qatar-airways": {
+      "name": "Qatar Airways",
+      "domestic": "02H:00M or 120 minutes",
+      "international": "02H:00M or 120 minutes",
+      "minor": "A cancellation reprotected within 2 hours may not qualify under the public trade guideline based on time alone.",
+      "major": "A time change beyond 2 hours, misconnection, qualifying terminal/class/frequency/airport change, cancellation, or discontinued service may qualify.",
+      "reissueCode": "Verify current QR waiver entry",
+      "reissuePlacement": "Follow the current Qatar Airways trade ticket-reissue guideline for 157 stock.",
+      "reissueApplies": "Eligible confirmed ticketed segments on Qatar Airways 157 stock, subject to current policy.",
+      "reissueConditions": [
+        "Action and, if needed, reissue no later than 2 days before affected departure.",
+        "New travel may be permitted within 21 days of the original date.",
+        "Use QR-operated flights, generally same or lowest class in the same cabin, within permitted routing limits."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "scandinavian-airlines": {
+      "name": "Scandinavian Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "singapore-airlines": {
+      "name": "Singapore Airlines",
+      "domestic": "01H:00M or 60 minutes",
+      "international": "01H:00M or 60 minutes",
+      "minor": "A time change under 60 minutes does not qualify based on time alone unless minimum connecting time is no longer met, the flight is cancelled without an alternative, or the original cabin is unavailable due to aircraft change.",
+      "major": "For the B2B policy effective September 15, 2025, self-reaccommodation without penalties may apply to an involuntary arrival or departure change of 60 minutes or more, a sub-60-minute change causing an MCT failure, cancellation with no alternative, or loss of the original cabin due to aircraft change.",
+      "reissueCode": "SC YYXXX/DDMMYY",
+      "reissuePlacement": "Enter the SC note in the Endorsement Box of the reissued ticket, using the affected flight number and date format required by the applicable local Agent 360 policy.",
+      "reissueApplies": "Eligible Singapore Airlines 618 ticket stock under the applicable local B2B policy.",
+      "reissueConditions": [
+        "If automated protection is accepted, reissue the revised itinerary with no additional collection.",
+        "For a misconnection, rebook a later flight or within the permitted window in the applicable local policy.",
+        "Maintain the original marketing and operating carrier unless the policy or Trade Support authorizes otherwise.",
+        "Verify the current local Agent 360 instruction because endorsement date formatting and support procedures may vary by market."
+      ],
+      "refundCode": "Follow current Agent 360 refund instruction",
+      "refundPlacement": "Confirm refund eligibility and processing in the applicable local Agent 360 policy.",
+      "important": [
+        "Eligibility criteria were revised effective September 15, 2025.",
+        "Applies to 618 ticket stock and qualifying conditions."
+      ]
+    },
+    "swiss": {
+      "name": "SWISS",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Follow current Lufthansa Group SKCHG/INVOL policy",
+      "reissuePlacement": "Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.",
+      "reissueApplies": "Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.",
+      "reissueConditions": [
+        "Determine whether the case is a planned SKCHG or short-term INVOL.",
+        "Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.",
+        "Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "tap-portugal": {
+      "name": "TAP Portugal",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "thai-airways-intl": {
+      "name": "Thai Airways Intl",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "turkish-airlines": {
+      "name": "Turkish Airlines",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "virgin-atlantic": {
+      "name": "Virgin Atlantic",
+      "domestic": "05H:00M or 300 minutes",
+      "international": "05H:00M or 300 minutes",
+      "minor": "A time change below 5 hours does not meet the public significant-time threshold unless it causes a qualifying misconnection or another listed condition.",
+      "major": "Cancellation, a time change of 5 hours or more, qualifying misconnection, or routing that adds a stop may qualify.",
+      "reissueCode": "Follow current Virgin Atlantic schedule-change instruction",
+      "reissuePlacement": "Verify whether Virgin Atlantic already revalidated the ticket. If not, follow the Partner Hub reissue entry for VS 932 stock.",
+      "reissueApplies": "Ticketed itineraries on Virgin Atlantic 932 ticket stock.",
+      "reissueConditions": [
+        "Review the PNR because Virgin Atlantic may revalidate the ticket automatically.",
+        "Use the Partner Hub rules for standard schedule changes, cancellations, interline tickets, and IROPs."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    },
+    "virgin-australia-international": {
+      "name": "Virgin Australia International",
+      "domestic": "See current Virgin Australia Schedule Change Policy",
+      "international": "See current Virgin Australia Schedule Change Policy",
+      "minor": "The current public Agency Hub provides a dedicated Schedule Change Policy, but the detailed threshold and ticket entries were not reliably extractable in this review. Check the live PDF before processing.",
+      "major": "Use the current Virgin Australia Schedule Change Policy for planned changes and the applicable commercial policy for active events.",
+      "reissueCode": "Check current Virgin Australia Agency Hub policy",
+      "reissuePlacement": "Follow the live Schedule Change Policy PDF for the validating ticket, channel, and affected operating carrier.",
+      "reissueApplies": "Depends on Virgin Australia ticket stock and whether the itinerary is 100% VA operated or includes an eligible partner-operated flight.",
+      "reissueConditions": [
+        "Determine whether the ticket contains only VA-operated flights or partner-operated sectors.",
+        "Use the current options for alternate travel, travel credit, or refund in the Agency Hub policy.",
+        "Contact Virgin Australia Industry Support if the PDF does not clearly cover the itinerary."
+      ],
+      "refundCode": "Check current Virgin Australia Agency Hub policy",
+      "refundPlacement": "Follow the current Schedule Change Policy and applicable refund procedure.",
+      "important": [
+        "Do not guess a threshold or waiver code.",
+        "Virgin Australia publishes the policy publicly, but the live PDF must be checked for exact servicing details."
+      ]
+    },
+    "westjet": {
+      "name": "WestJet",
+      "domestic": "Information not publicly confirmed",
+      "international": "Information not publicly confirmed",
+      "minor": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "major": "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.",
+      "reissueCode": "Call airline / check agent portal",
+      "reissuePlacement": "Information not publicly confirmed. Do not guess a waiver or endorsement entry.",
+      "reissueApplies": "Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.",
+      "reissueConditions": [
+        "Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."
+      ],
+      "refundCode": "Call airline / check agent portal",
+      "refundPlacement": "Confirm refund eligibility and the required waiver or refund entry directly with the airline.",
+      "important": [
+        "Do not process an involuntary reissue or refund using an unverified code.",
+        "Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."
+      ]
+    }
+  },
+  "siteText": {
+    "title": "Airline Schedule Change Guide",
+    "reviewed": "Last review September 14, 2026",
+    "subtitle": "Select an airline to view its schedule-change threshold, rebooking instructions, and refund guidance.",
+    "beforeHeader": "Before processing:",
+    "beforeText": "Use this as a quick reference only. Confirm the policy in the airline's live agency portal, especially for refunds, codeshares, other-airline ticket stock, NDC bookings, active waivers, and travel within 72 hours.",
+    "placeholder": "Airline information will appear here after you make a selection.",
+    "feedback": "If you notice any incorrect information, or if an airline has updated their policies, please contact AJ with updates or suggestions.",
+    "footer": "Last cross-checked against publicly available official airline and travel-agent guidance: September 14, 2026. Internal reference guide only. Airline policies and waiver codes may change without notice. Verify the live airline agency portal, validating carrier, ticket stock, and waiver instructions before processing."
+  }
+}
