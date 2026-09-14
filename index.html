@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airline Schedule Change Guide</title>
+  <style>
+    :root {
+      --primary: #075985;
+      --primary-dark: #0c4a6e;
+      --background: #f0f9ff;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #5f6b7a;
+      --border: #d7e6ef;
+      --minor-bg: #fff8e7;
+      --minor-border: #f2b84b;
+      --major-bg: #edf9f0;
+      --major-border: #4aaa68;
+      --warning-bg: #fff1f2;
+      --warning-border: #e35d6a;
+      --code-bg: #e6f4fa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: linear-gradient(145deg, #e0f2fe 0%, #f8fafc 45%, #dbeafe 100%);
+      line-height: 1.55;
+    }
+
+    .page-shell {
+      width: min(920px, calc(100% - 32px));
+      margin: 42px auto;
+    }
+
+    .header {
+      color: white;
+      padding: 30px;
+      border-radius: 22px 22px 0 0;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      box-shadow: 0 18px 45px rgba(12, 74, 110, 0.18);
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+    }
+
+    .header p {
+      margin: 0;
+      color: #dff4ff;
+    }
+
+    .main-card {
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-top: 0;
+      border-radius: 0 0 22px 22px;
+      background: var(--card);
+      box-shadow: 0 18px 45px rgba(15, 50, 75, 0.13);
+    }
+
+    .selector-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .airline-finder,
+    .airline-combobox {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .airline-combobox-input {
+      padding-right: 48px !important;
+    }
+    .airline-dropdown-button {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 46px;
+      height: calc(100% - 2px);
+      border: 0;
+      border-left: 1px solid #d6e2e9;
+      border-radius: 0 11px 11px 0;
+      color: #334155;
+      background: #ffffff;
+      font-size: 1.15rem;
+      cursor: pointer;
+    }
+    .airline-dropdown-button:hover { background: #f1f5f9; }
+    .visually-hidden-select {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    .airline-search {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #9fb9c8;
+      border-radius: 12px;
+      color: var(--text);
+      background: #ffffff;
+      font-size: 1rem;
+    }
+    .airline-search:focus {
+      outline: 3px solid rgba(14, 165, 233, 0.22);
+      border-color: #0284c7;
+    }
+    .airline-search-results {
+      position: absolute;
+      z-index: 50;
+      top: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      display: none;
+      max-height: 270px;
+      overflow-y: auto;
+      border: 1px solid #b8cbd6;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(15, 50, 75, .17);
+    }
+    .airline-search-results.show { display: block; }
+    .airline-search-result {
+      width: 100%;
+      padding: 11px 14px;
+      border: 0;
+      border-bottom: 1px solid #e5edf2;
+      color: var(--text);
+      background: #ffffff;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+    }
+    .airline-search-result:last-child { border-bottom: 0; }
+    .airline-search-result:hover,
+    .airline-search-result:focus {
+      outline: none;
+      color: #075985;
+      background: #eaf7fd;
+    }
+    .airline-search-empty {
+      padding: 13px 14px;
+      color: var(--muted);
+    }
+
+    select {
+      width: 100%;
+      padding: 14px 44px 14px 14px;
+      border: 1px solid #9fb9c8;
+      border-radius: 12px;
+      color: var(--text);
+      background: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: 3px solid rgba(14, 165, 233, 0.22);
+      border-color: #0284c7;
+    }
+
+    #policyContent {
+      display: none;
+      margin-top: 26px;
+    }
+
+    .airline-title {
+      margin: 0 0 18px;
+      color: var(--primary-dark);
+      font-size: 1.65rem;
+    }
+
+    .section {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fbfdff;
+    }
+
+    .section h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .section p { margin: 7px 0; }
+    .section ul { margin: 8px 0 0; padding-left: 21px; }
+
+    .minor {
+      border-left: 5px solid var(--minor-border);
+      background: var(--minor-bg);
+    }
+
+    .major {
+      border-left: 5px solid var(--major-border);
+      background: var(--major-bg);
+    }
+
+    .warning {
+      border-left: 5px solid var(--warning-border);
+      background: var(--warning-bg);
+    }
+
+    .code {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      color: #075985;
+      background: var(--code-bg);
+      font-family: Consolas, Monaco, monospace;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .threshold-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .threshold-item {
+      padding: 12px;
+      border-radius: 10px;
+      background: #eef7fb;
+    }
+
+    .threshold-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .placeholder {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px dashed #8badbf;
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+      background: #f8fcfe;
+    }
+
+    .feedback-note {
+      width: 100%;
+      margin: 0;
+      padding: 14px 18px;
+      border: 0;
+      border-bottom: 3px solid #991b1b;
+      border-radius: 0;
+      color: #ffffff;
+      background: #dc2626;
+      font-weight: 600;
+      line-height: 1.5;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(127, 29, 29, .25);
+    }
+    .feedback-note strong { color: #ffffff; font-weight: 800; text-decoration: underline; }
+    .feedback-note-top { position: relative; z-index: 9100; }
+
+    .footer-note {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-align: center;
+    }
+
+
+    .admin-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 9000;
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 18px;
+      color: #ffffff;
+      background: #101827;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, .18);
+    }
+    .topbar-spacer { flex: 1; }
+    .topbar-controls { display: flex; align-items: center; gap: 10px; }
+    .topbar-label { font-size: .88rem; color: #e5e7eb; }
+    .topbar-button {
+      border: 0;
+      border-radius: 9px;
+      padding: 9px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #111827;
+      background: #f1f5f9;
+    }
+    .edit-mode-button { color: #ffffff; background: #2563eb; }
+    .edit-mode-button.on { background: #16a34a; }
+    .logout-topbar-button { color: #ffffff; background: #dc2626; }
+    .admin-notice-wrap {
+      width: min(920px, calc(100% - 32px));
+      margin: 18px auto -22px;
+    }
+    .admin-notice {
+      padding: 12px 14px;
+      border: 1px solid #6ee7a0;
+      border-radius: 11px;
+      color: #166534;
+      background: #ecfdf3;
+    }
+    #loginStatus, #loginButton, #logoutButton {
+      display: none !important;
+    }
+    .admin-settings-panel {
+      margin: 18px 0 4px;
+      padding: 14px;
+      border: 1px solid #d7dee8;
+      border-radius: 12px;
+      background: #f8fafc;
+    }
+    .admin-settings-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .settings-search-wrap { flex: 1 1 300px; }
+    .settings-search {
+      width: 100%;
+      min-height: 40px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      font: inherit;
+      background: #ffffff;
+    }
+    .settings-action {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 0;
+      border-radius: 9px;
+      color: #111827;
+      background: #e5e7eb;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .settings-action:hover { background: #d7dce3; }
+    .edit-action-panel {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: 16px 0 4px;
+    }
+    .delete-airline-button {
+      background: #dc2626;
+    }
+    .delete-airline-button:hover {
+      background: #b91c1c;
+    }
+    body:not(.edit-mode-on) #editPanel { display: none !important; }
+    @media (max-width: 620px) {
+      .admin-topbar { align-items: flex-end; padding: 8px 10px; }
+      .topbar-controls { flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+      .topbar-button { padding: 8px 10px; font-size: .82rem; }
+      .topbar-label { font-size: .78rem; }
+      .admin-notice-wrap { width: min(100% - 20px, 920px); margin-top: 12px; }
+      .admin-settings-row { align-items: stretch; }
+      .settings-search-wrap, .settings-action { width: 100%; }
+      .edit-action-panel { flex-direction: column; }
+      .edit-action-panel .btn { width: 100%; }
+      .admin-primary-actions { justify-content: stretch; }
+      .add-airline-main-button { width: 100%; }
+    }
+
+    .admin-primary-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+    .add-airline-main-button {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 16px;
+      color: #ffffff;
+      background: #2563eb;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(37, 99, 235, .2);
+    }
+    .add-airline-main-button:hover { background: #1d4ed8; }
+    .add-airline-action { color: #ffffff; background: #2563eb; }
+    .add-airline-action:hover { background: #1d4ed8; }
+    .add-airline-card { width: min(650px, 100%); max-height: 90vh; overflow-y: auto; }
+
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(5px);
+    }
+    .login-overlay.show { display: flex; }
+    .login-card {
+      width: min(430px, 100%);
+      padding: 24px;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+    .login-card h2 { margin: 0 0 8px; color: #0c4a6e; }
+    .login-card p { margin: 0 0 18px; color: #5f6b7a; }
+    .login-error {
+      min-height: 22px;
+      margin-top: 10px;
+      color: #b91c1c;
+      font-weight: 700;
+    }
+    .login-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: .86rem;
+      font-weight: 700;
+    }
+    .login-status.logged-in { background: #dcfce7; color: #166534; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 18px 0 4px;
+    }
+    .btn {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #075985;
+      color: white;
+    }
+    .btn.secondary { background: #475569; }
+    .btn.danger { background: #b91c1c; }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
+    .edit-panel {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border: 2px solid #38bdf8;
+      border-radius: 14px;
+      background: #f0f9ff;
+    }
+    .edit-panel.show { display: block; }
+    .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .edit-field { margin-bottom: 12px; }
+    .edit-field label { display:block; font-weight:700; margin-bottom:5px; }
+    .edit-field input, .edit-field textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #94a3b8;
+      border-radius: 9px;
+      font: inherit;
+      background: white;
+    }
+    .edit-field textarea { min-height: 110px; resize: vertical; }
+    .editor-note { color:#475569; font-size:.9rem; }
+    .status-message { margin-top:10px; font-weight:700; color:#166534; }
+
+    @media (max-width: 620px) {
+      .page-shell { width: min(100% - 20px, 920px); margin: 18px auto; }
+      .header, .main-card { padding: 21px; }
+      .threshold-grid, .edit-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="feedbackNote" class="feedback-note feedback-note-top" role="alert">
+    If you notice any incorrect information, or if an airline has updated their policies, please contact <strong>AJ</strong> with updates or suggestions.
+  </div>
+  <nav class="admin-topbar" aria-label="Website access controls">
+    <div class="topbar-spacer"></div>
+    <div id="viewOnlyControls" class="topbar-controls">
+      <span class="topbar-label">View Only</span>
+      <button class="topbar-button login-topbar-button" id="topLoginButton" type="button">Log In</button>
+    </div>
+    <div id="adminControls" class="topbar-controls" style="display:none;">
+      <span class="topbar-label">Admin Mode</span>
+      <button class="topbar-button settings-button" id="settingsButton" type="button">Settings</button>
+      <button class="topbar-button edit-mode-button" id="editModeButton" type="button">Edit Mode: OFF</button>
+      <button class="topbar-button logout-topbar-button" id="topLogoutButton" type="button">Logout</button>
+    </div>
+  </nav>
+
+  <div id="adminNotice" class="admin-notice-wrap" style="display:none;">
+    <div class="admin-notice">Admin mode is ON. Turn on Edit Mode to edit the selected airline policy. You can also add a new airline or import and export policy backups.</div>
+    <div class="admin-primary-actions">
+      <button class="add-airline-main-button" id="addAirlineButton" type="button">+ Add New Airline</button>
+    </div>
+  </div>
+
+  <div id="siteTextOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="siteTextTitle">
+    <div class="login-card add-airline-card">
+      <h2 id="siteTextTitle">Edit Website Text</h2>
+      <p>Edit the general website text shown to all visitors.</p>
+      <div class="edit-field"><label for="siteTitleInput">Website title</label><input id="siteTitleInput" type="text"></div>
+      <div class="edit-field"><label for="siteReviewedInput">Review date text</label><input id="siteReviewedInput" type="text"></div>
+      <div class="edit-field"><label for="siteSubtitleInput">Website subtitle</label><textarea id="siteSubtitleInput"></textarea></div>
+      <div class="edit-field"><label for="beforeHeaderInput">Before-processing header</label><input id="beforeHeaderInput" type="text"></div>
+      <div class="edit-field"><label for="beforeTextInput">Before-processing message</label><textarea id="beforeTextInput"></textarea></div>
+      <div class="edit-field"><label for="placeholderInput">Selection placeholder</label><textarea id="placeholderInput"></textarea></div>
+      <div class="edit-field"><label for="feedbackInput">Feedback and correction notice</label><textarea id="feedbackInput"></textarea></div>
+      <div class="edit-field"><label for="footerInput">Footer verification notice</label><textarea id="footerInput"></textarea></div>
+      <div class="toolbar">
+        <button class="btn" id="saveSiteTextButton" type="button">Save Website Text</button>
+        <button class="btn secondary" id="cancelSiteTextButton" type="button">Cancel</button>
+      </div>
+      <div id="siteTextStatus" class="status-message" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div id="addAirlineOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="addAirlineTitle">
+    <div class="login-card add-airline-card">
+      <h2 id="addAirlineTitle">Add New Airline</h2>
+      <p>Enter the airline name and initial policy details. The new airline will be added to the selection list and can be edited later.</p>
+
+      <div class="edit-field">
+        <label for="newAirlineName">Airline name</label>
+        <input id="newAirlineName" type="text" placeholder="Example: Frontier Airlines">
+      </div>
+
+      <div class="edit-grid">
+        <div class="edit-field">
+          <label for="newDomestic">Domestic threshold</label>
+          <input id="newDomestic" type="text" placeholder="Example: 03H:00M or 180 minutes">
+        </div>
+        <div class="edit-field">
+          <label for="newInternational">International threshold</label>
+          <input id="newInternational" type="text" placeholder="Example: 06H:00M or 360 minutes">
+        </div>
+      </div>
+
+      <div class="edit-field">
+        <label for="newReissueCode">Reissue code or instruction</label>
+        <input id="newReissueCode" type="text" placeholder="Enter code or verification instruction">
+      </div>
+
+      <div class="edit-field">
+        <label for="newRefundCode">Refund waiver code</label>
+        <input id="newRefundCode" type="text" placeholder="Enter code or verification instruction">
+      </div>
+
+      <div class="toolbar">
+        <button class="btn" id="saveNewAirlineButton" type="button">Add Airline</button>
+        <button class="btn secondary" id="cancelNewAirlineButton" type="button">Cancel</button>
+      </div>
+      <div id="addAirlineError" class="login-error" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div id="loginOverlay" class="login-overlay" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="login-card">
+      <h2 id="loginTitle">Agent Login Required</h2>
+      <p>Please log in before editing or exporting policy information.</p>
+      <div class="edit-field">
+        <label for="loginUsername">Username</label>
+        <input id="loginUsername" type="text" autocomplete="username">
+      </div>
+      <div class="edit-field">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" autocomplete="current-password">
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="loginSubmitButton" type="button">Log in</button>
+        <button class="btn secondary" id="loginCancelButton" type="button">Cancel</button>
+      </div>
+      <div id="loginError" class="login-error" aria-live="polite"></div>
+    </div>
+  </div>
+  <main class="page-shell">
+    <header class="header">
+      <h1 id="siteTitle">Airline Schedule Change Guide</h1>
+      <div id="siteReviewedDate" style="display:inline-block;margin:8px 0 10px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.16);font-size:.82rem;font-weight:700;">Last reviewed and cross-checked: September 14, 2026</div>
+      <p id="siteSubtitle">Select an airline to view its schedule-change threshold, rebooking instructions, and refund guidance.</p>
+    </header>
+
+    <section class="main-card">
+      <label class="selector-label" for="airlineSearch">Search or select an airline</label>
+      <div class="airline-combobox" id="airlineCombobox">
+        <input id="airlineSearch" class="airline-search airline-combobox-input" type="search" placeholder="Search or select an airline..." autocomplete="off" aria-label="Search or select an airline" aria-expanded="false" aria-controls="airlineSearchResults">
+        <button id="airlineDropdownButton" class="airline-dropdown-button" type="button" aria-label="Show airline list" tabindex="-1">&#9662;</button>
+        <div id="airlineSearchResults" class="airline-search-results" role="listbox" aria-label="Airlines"></div>
+      </div>
+
+      <select id="airlineSelect" class="visually-hidden-select" aria-hidden="true" tabindex="-1">
+        <option value="">Choose an airline...</option>
+        <option value="alaska">Alaska Airlines</option>
+        <option value="american">American Airlines</option>
+        <option value="delta">Delta Air Lines</option>
+        <option value="hawaiian">Hawaiian Airlines</option>
+        <option value="jetblue">JetBlue Airways</option>
+        <option value="southwest">Southwest Airlines</option>
+        <option value="united">United Airlines</option>
+      </select>
+
+      <div id="adminToolsPanel" class="admin-settings-panel" style="display:none;">
+        <div class="admin-settings-row">
+          <div class="settings-search-wrap">
+            <input id="settingsSearch" class="settings-search" type="text" placeholder="Search airline policies..." aria-label="Search airline policies">
+          </div>
+          <button class="settings-action add-airline-action" id="editSiteTextButton" type="button">Edit Website Text</button>
+          <button class="settings-action" id="exportDataButton" type="button">Export Backup</button>
+          <button class="settings-action" id="importDataButton" type="button">Import Backup</button>
+          <button class="settings-action" id="exportHtmlButton" type="button">Download Updated HTML</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden>
+        </div>
+      </div>
+
+      <div id="editActionPanel" class="edit-action-panel" style="display:none;">
+        <button class="btn" id="editButton" type="button">Edit Selected Airline</button>
+        <button class="btn delete-airline-button" id="deleteAirlineButton" type="button">Delete Selected Airline</button>
+      </div>
+
+      <span id="loginStatus" hidden>Editor locked</span>
+      <button id="loginButton" type="button" hidden>Agent login</button>
+      <button id="logoutButton" type="button" hidden>Log out</button>
+
+      <div id="editPanel" class="edit-panel">
+        <h3 style="margin-top:0;">Edit Airline Policy</h3>
+        <p class="editor-note">Agent login is required to edit or export policy data. Edits are saved in this browser. To publish changes for everyone, click <strong>Download updated HTML</strong>, then replace the HTML file in your GitHub repository.</p>
+        <div class="section" style="margin-top:12px;">
+          <h4 style="margin-top:0;">Editable Section Headers</h4>
+          <div class="edit-grid">
+            <div class="edit-field"><label for="editHeaderThreshold">Threshold header</label><input id="editHeaderThreshold"></div>
+            <div class="edit-field"><label for="editHeaderMinor">Minor-change header</label><input id="editHeaderMinor"></div>
+            <div class="edit-field"><label for="editHeaderMajor">Major-change header</label><input id="editHeaderMajor"></div>
+            <div class="edit-field"><label for="editHeaderRebook">Rebooking header</label><input id="editHeaderRebook"></div>
+            <div class="edit-field"><label for="editHeaderRefund">Refund header</label><input id="editHeaderRefund"></div>
+            <div class="edit-field"><label for="editHeaderImportant">Important header</label><input id="editHeaderImportant"></div>
+            <div class="edit-field"><label for="editHeaderConditions">Reissuing-conditions header</label><input id="editHeaderConditions"></div>
+          </div>
+        </div>
+
+        <div class="edit-grid">
+          <div class="edit-field"><label for="editDomestic">Domestic threshold</label><input id="editDomestic"></div>
+          <div class="edit-field"><label for="editInternational">International threshold</label><input id="editInternational"></div>
+        </div>
+        <div class="edit-field"><label for="editMinor">Minor schedule change</label><textarea id="editMinor"></textarea></div>
+        <div class="edit-field"><label for="editMajor">Major or significant schedule change</label><textarea id="editMajor"></textarea></div>
+        <div class="edit-grid">
+          <div class="edit-field"><label for="editReissueCode">Reissue code or instruction</label><input id="editReissueCode"></div>
+          <div class="edit-field"><label for="editRefundCode">Refund waiver code</label><input id="editRefundCode"></div>
+        </div>
+        <div class="edit-field"><label for="editReissuePlacement">Reissue placement</label><textarea id="editReissuePlacement"></textarea></div>
+        <div class="edit-field"><label for="editReissueApplies">Reissue applies to</label><textarea id="editReissueApplies"></textarea></div>
+        <div class="edit-field"><label for="editReissueConditions">Reissuing conditions, one per line</label><textarea id="editReissueConditions"></textarea></div>
+        <div class="edit-field"><label for="editRefundPlacement">Refund placement or process</label><textarea id="editRefundPlacement"></textarea></div>
+        <div class="edit-field"><label for="editImportant">Important notes, one per line</label><textarea id="editImportant"></textarea></div>
+        <div class="toolbar">
+          <button class="btn" id="saveEditButton" type="button">Save changes</button>
+          <button class="btn secondary" id="cancelEditButton" type="button">Cancel</button>
+        </div>
+        <div id="editStatus" class="status-message" aria-live="polite"></div>
+      </div>
+
+      <div class="section warning" style="margin-top:18px;">
+        <strong id="beforeProcessingHeader">Before processing:</strong> <span id="beforeProcessingText">Use this as a quick reference only. Confirm the policy in the airline's live agency portal, especially for refunds, codeshares, other-airline ticket stock, NDC bookings, active waivers, and travel within 72 hours.</span>
+      </div>
+      <div id="placeholder" class="placeholder">Airline information will appear here after you make a selection.</div>
+      <div id="policyContent" aria-live="polite"></div>
+    <p id="siteFooterNote" class="footer-note">Last cross-checked against publicly available official airline and travel-agent guidance: September 14, 2026. Internal reference guide only. Airline policies and waiver codes may change without notice. Verify the live airline agency portal, validating carrier, ticket stock, and waiver instructions before processing.</p>
+    </section>
+  </main>
+
+  <script>
+    const defaultSiteText = {
+      title: "Airline Schedule Change Guide",
+      reviewed: "Last reviewed and cross-checked: September 14, 2026",
+      subtitle: "Select an airline to view its schedule-change threshold, rebooking instructions, and refund guidance.",
+      beforeHeader: "Before processing:",
+      beforeText: "Use this as a quick reference only. Confirm the policy in the airline's live agency portal, especially for refunds, codeshares, other-airline ticket stock, NDC bookings, active waivers, and travel within 72 hours.",
+      placeholder: "Airline information will appear here after you make a selection.",
+      feedback: "If you notice any incorrect information, or if an airline has updated their policies, please contact AJ with updates or suggestions.",
+      footer: "Last cross-checked against publicly available official airline and travel-agent guidance: September 14, 2026. Internal reference guide only. Airline policies and waiver codes may change without notice. Verify the live airline agency portal, validating carrier, ticket stock, and waiver instructions before processing."
+    };
+    const embeddedSiteTextData = "__EMBEDDED_SITE_TEXT_DATA__";
+    let siteText = JSON.parse(JSON.stringify(defaultSiteText));
+    try {
+      if (embeddedSiteTextData !== "__" + "EMBEDDED_SITE_TEXT_DATA__") {
+        siteText = JSON.parse(decodeURIComponent(escape(atob(embeddedSiteTextData))));
+      } else {
+        const savedSiteText = localStorage.getItem("airlineSiteTextV1");
+        if (savedSiteText) siteText = {...siteText, ...JSON.parse(savedSiteText)};
+      }
+    } catch (error) { console.warn("Could not load website text.", error); }
+
+    function applySiteText() {
+      document.title = siteText.title;
+      document.getElementById("siteTitle").textContent = siteText.title;
+      document.getElementById("siteReviewedDate").textContent = siteText.reviewed;
+      document.getElementById("siteSubtitle").textContent = siteText.subtitle;
+      document.getElementById("beforeProcessingHeader").textContent = siteText.beforeHeader;
+      document.getElementById("beforeProcessingText").textContent = siteText.beforeText;
+      document.getElementById("placeholder").textContent = siteText.placeholder;
+      const feedbackMessage = siteText.feedback || defaultSiteText.feedback;
+      document.getElementById("feedbackNote").innerHTML = feedbackMessage.replace(/AJ/g, "<strong>AJ</strong>");
+      document.getElementById("siteFooterNote").textContent = siteText.footer;
+    }
+
+    const commonMinorAction = "Accept the new flight, document the notification or contact attempt, and send the updated itinerary through the airline so the Pax can view the new flight details. If the call is routed to voicemail, document the contact attempt and send the updated itinerary.";
+
+    let policies = {
+      alaska: {
+        name: "Alaska Airlines",
+        domestic: "02H:01M or more than 120 minutes",
+        international: "02H:01M or more than 120 minutes",
+        minor: "If the schedule change is 120 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. " + commonMinorAction,
+        major: "If the schedule change exceeds 120 minutes, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+        reissueCode: "ASSC",
+        reissuePlacement: "Enter ASSC in the Tour Code Box.",
+        reissueApplies: "Eligible schedule-change reissues governed by Alaska Airlines policy on 027 ticket stock.",
+        reissueConditions: ["Rebook for the day before, the same day, or the day after the original travel date.", "Use an Alaska-operated or Alaska-marketed codeshare flight.", "Book the original class when available. Otherwise, book the lowest available class in the same cabin.", "Keep the same routing when possible. A connection may be added or removed, and co-terminals may be used when necessary.", "Reissue as an even exchange and enter ASSC in the Tour Code Box.", "Only one waiver reissue is allowed. Any later change is voluntary and normal fare rules apply.", "Add an OSI explaining the schedule-change reaccommodation and document that the Pax was notified."],
+        refundCode: "No permanent public universal code confirmed",
+        refundPlacement: "Follow the applicable refund procedure in the booking system or contact Alaska Airlines Agency Support.",
+        important: ["Do not use ASSC as a refund waiver unless specifically authorized.", "Only one reissue using the schedule-change waiver is permitted.", "Verify the validating carrier and ticket stock before processing."]
+      },
+      american: {
+        name: "American Airlines",
+        domestic: "01H:01M or 61 minutes",
+        international: "01H:01M or 61 minutes",
+        minor: "If the schedule change is 60 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. " + commonMinorAction,
+        major: "If the schedule change is 61 minutes or more, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+        reissueCode: "SKCHG",
+        reissuePlacement: "Add SKCHG at the beginning of the Endorsement Box.",
+        reissueApplies: "Eligible domestic and international schedule-change reissues on American Airlines 001 ticket stock.",
+        reissueConditions: ["The policy applies to a planned schedule change received more than 72 hours before departure.", "If the ticket contains only AA Prime flights, revalidation may be used when the same inventory and routing, including the connection point, are retained.", "A reissue is required when the ticket contains an AA codeshare or other-airline Prime flight, or when AA Prime space does not qualify for revalidation.", "For changes of 61 minutes or more, follow American's applicable carrier, inventory, cabin, routing, and travel-date guidelines in SalesLink.", "For Basic Economy, AA Prime flights must remain in B inventory. Select another eligible flight if B inventory is unavailable.", "Complete the reissue or revalidation when the alternate itinerary is booked, and meet the SSR ADTK deadline.", "Place SKCHG at the beginning of the Endorsement Box."],
+        refundCode: "SCRFND",
+        refundPlacement: "Enter SCRFND in the refund waiver-code field. For BSP processing, include the reason for refund and SCRFND in the BSP Refund Application when applicable.",
+        important: ["Use SKCHG for an eligible reissue.", "Use SCRFND for an eligible refund.", "Do not use SCRFND for ticket reissue.", "Free rebooking eligibility does not automatically mean the ticket qualifies for a refund."]
+      },
+      delta: {
+        name: "Delta Air Lines",
+        domestic: "03H:00M or 180 minutes",
+        international: "06H:00M or 360 minutes",
+        minor: "If the applicable change is less than 180 minutes for a domestic itinerary or less than 360 minutes for an international itinerary, it does not meet the significant time-change threshold. If no other qualifying condition applies, " + commonMinorAction.charAt(0).toLowerCase() + commonMinorAction.slice(1),
+        major: "If the applicable schedule change is 180 minutes or more for a domestic itinerary or 360 minutes or more for an international itinerary, the Pax may be eligible for complimentary rebooking or a refund under Delta's policy.",
+        reissueCode: "OSI DL REISSUE DUE TO DL INVOL",
+        reissuePlacement: "Add the OSI message to the PNR, then reissue according to Delta's policy. If Delta already revalidated the ticket and the Pax accepts the change, add OSI DL ACCEPT DUE TO DL INVOL.",
+        reissueApplies: "Eligible itineraries on Delta 006 ticket stock covered by the current policy.",
+        reissueConditions: ["Reconcile the PNR by removing the old or changed segments.", "If the PNR and electronic ticket match because Delta already revalidated the ticket, do not reissue. Add OSI DL ACCEPT DUE TO DL INVOL after the Pax accepts.", "If reissue is required, keep the same origin and destination, or use an allowed alternate airport within 100 miles.", "Book the same cabin. Use the same class when available; Main Cabin may be booked up to Y, while other cabins use the next available class in the same cabin.", "Travel may be moved up to two days before or two days after the original date.", "Use a Delta-marketed and Delta-operated or Delta Connection flight. Within 72 hours, limited same-day JV partner options may apply.", "Reissue as an even exchange, add OSI DL REISSUE DUE TO DL INVOL, and notify the Pax. No waiver code is required."],
+        refundCode: "No permanent public universal refund code confirmed",
+        refundPlacement: "Follow Delta's schedule-change refund procedure and required PNR documentation.",
+        important: ["Verify the ticket issue date because older tickets may have different thresholds.", "The qualifying time conditions specifically include an earlier departure or later arrival.", "Check whether Delta already revalidated the ticket before reissuing."]
+      },
+      hawaiian: {
+        name: "Hawaiian Airlines",
+        domestic: "02H:01M or more than 120 minutes",
+        international: "02H:01M or more than 120 minutes",
+        minor: "If the schedule change is 120 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. " + commonMinorAction,
+        major: "If the schedule change exceeds 120 minutes, the Pax may be eligible for complimentary rebooking under the applicable schedule-change policy.",
+        reissueCode: "Verify ticket stock",
+        reissuePlacement: "For a Hawaiian-operated flight on Alaska 027 ticket stock governed by the joint policy, enter ASSC in the Tour Code Box. For Hawaiian 173 ticket stock, check the current agency procedure or contact Agency Support.",
+        reissueApplies: "Depends on the validating carrier and ticket stock.",
+        reissueConditions: ["First verify the validating carrier and ticket stock.", "For a Hawaiian-operated flight on Alaska 027 ticket stock governed by the joint policy, use the Alaska schedule-change conditions.", "Rebook for the day before, the same day, or the day after the original travel date.", "Use eligible Alaska or Hawaiian flights permitted by the current joint policy, in the original class when possible or the lowest available class in the same cabin.", "Enter ASSC in the Tour Code Box only when the 027-ticket-stock policy applies.", "For Hawaiian 173 ticket stock, do not assume ASSC applies. Check the current agency procedure or contact Agency Support before reissuing."],
+        refundCode: "No permanent public universal code confirmed",
+        refundPlacement: "Follow the refund procedure applicable to the validating carrier and ticket stock.",
+        important: ["Do not automatically use ASSC on Hawaiian 173 ticket stock.", "Verify whether the ticket was issued on 027 or 173 ticket stock.", "If another carrier issued the ticket, follow the validating carrier's policy."]
+      },
+      jetblue: {
+        name: "JetBlue Airways",
+        domestic: "01H:01M or 61 minutes",
+        international: "01H:01M or 61 minutes",
+        minor: "If the schedule change is 60 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. " + commonMinorAction,
+        major: "If the schedule change is 61 minutes or more, the Pax may be eligible for complimentary rebooking. Refund eligibility may require a change of 120 minutes or more or another qualifying disruption.",
+        reissueCode: "Check current JetBlue waiver page",
+        reissuePlacement: "Use the code and placement shown in the current JetBlue Schedule Change Policy or waiver-code instructions.",
+        reissueApplies: "Eligible schedule changes on JetBlue 279 ticket stock, subject to the current policy.",
+        reissueConditions: ["Confirm that JetBlue 279 is the validating ticket stock and that the booking meets the current schedule-change policy.", "Use the same city pair or an eligible co-located airport allowed by JetBlue.", "Book within the travel window allowed for the size of the schedule change.", "Use the same or lowest available eligible booking class as permitted by the current policy, then process an even exchange.", "Cancel or refund associated EMDs before modifying flights because EMDs are not exchangeable. Repurchase any ancillary the Pax still wants.", "Use the waiver code and placement shown on JetBlue's current waiver page. OPCANX is only for a qualifying operational cancellation when no dedicated event waiver exists."],
+        refundCode: "Check current JetBlue waiver page",
+        refundPlacement: "Follow the applicable ARC, BSP, or GDS refund instructions. OPCANX applies only to a qualifying operational cancellation when no dedicated event waiver is published.",
+        important: ["Do not use OPCANX as a general advance schedule-change code.", "A 61-to-119-minute change may qualify for rebooking but not necessarily a refund to the original form of payment."]
+      },
+      southwest: {
+        name: "Southwest Airlines",
+        domestic: "03H:00M or 180 minutes",
+        international: "06H:00M or 360 minutes",
+        minor: "If the change is less than 180 minutes for a domestic itinerary or less than 360 minutes for an international itinerary, it does not meet the significant time-change threshold. If no other qualifying condition applies, " + commonMinorAction.charAt(0).toLowerCase() + commonMinorAction.slice(1),
+        major: "If the schedule change is 180 minutes or more for a domestic itinerary or 360 minutes or more for an international itinerary, the Pax may be eligible for complimentary rebooking under the applicable policy.",
+        reissueCode: "No single permanent universal code",
+        reissuePlacement: "Check Southwest's current GDS Waiver Code Chart for the correct code format and placement.",
+        reissueApplies: "Eligible schedule-change reissues processed through an authorized GDS.",
+        reissueConditions: ["Southwest does not permit agency ticket revalidation. Process the transaction as a reissue.", "For an advance schedule change outside 72 hours, accept the reaccommodation or rebook the affected segment once.", "The alternate flight must be within 14 days of the original travel date and use the same fare product.", "Process an even exchange.", "Enter WAIVESC followed by the affected four-digit flight number and six-digit affected flight date in MMDDYY format in the Endorsement field.", "Use only unflown coupons for a partially used ticket.", "If Southwest already reissued the ticket, further changes must be handled by Southwest."],
+        refundCode: "No single permanent universal code",
+        refundPlacement: "Check Southwest's current GDS Waiver Code Chart for the applicable schedule-change or IROP refund code and placement.",
+        important: ["Do not reuse a code from a previous booking or travel advisory.", "Verify whether the case is a schedule change, IROP, cancellation, or active travel advisory."]
+      },
+      united: {
+        name: "United Airlines",
+        domestic: "00H:31M or more than 30 minutes",
+        international: "00H:31M or more than 30 minutes",
+        minor: "If the schedule change is 30 minutes or less, it is considered a minor change, and the Pax is not eligible for a complimentary change based on the time difference alone. " + commonMinorAction,
+        major: "If the schedule change exceeds 30 minutes, the Pax may be eligible for complimentary rebooking under the airline's schedule-change policy.",
+        reissueCode: "No permanent public universal code confirmed",
+        reissuePlacement: "Check United Jetstream or the applicable waiver notice for the correct code and ticketing instructions.",
+        reissueApplies: "Eligible schedule-change rebooking, subject to ticket stock, operating carrier, and current agency policy.",
+        reissueConditions: ["For the public self-service option, the schedule change must exceed 30 minutes.", "The replacement must be a United or United Express flight.", "The new flight must depart from the same airport and within 24 hours of the original flight time.", "For agency-issued tickets, verify validating carrier, ticket stock, inventory, cabin, and waiver or endorsement instructions in United Jetstream before reissuing.", "If the required agency conditions are not visible or the requested option falls outside the published self-service limits, contact United Agency Support rather than guessing a waiver code."],
+        refundCode: "No permanent public universal code confirmed",
+        refundPlacement: "Follow United Jetstream refund instructions or contact United Agency Support.",
+        important: ["The replacement flight must meet United's rebooking conditions.", "Do not use an expired weather or travel-advisory waiver for a standard schedule change."]
+      }
+    };
+
+
+
+    const defaultPolicies = JSON.parse(JSON.stringify(policies));
+    const embeddedPolicyData = "__EMBEDDED_POLICY_DATA__";
+    try {
+      if (embeddedPolicyData !== "__" + "EMBEDDED_POLICY_DATA__") {
+        policies = JSON.parse(decodeURIComponent(escape(atob(embeddedPolicyData))));
+      } else {
+        const saved = localStorage.getItem("airlinePolicyDataV1");
+        if (saved) policies = JSON.parse(saved);
+      }
+    } catch (error) {
+      console.warn("Could not load saved policy data.", error);
+    }
+
+    // Always merge the requested airline catalog after loading browser or embedded data.
+    // This preserves prior edits while ensuring newly added airlines are visible.
+    const requestedAirlineCatalog = {"aegean-airlines":{"name":"Aegean Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"aer-lingus":{"name":"Aer Lingus","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"air-canada":{"name":"Air Canada","domestic":"Free change allowed; refund generally over 03H:00M","international":"Free change allowed; refund generally over 03H:00M","minor":"A departure change of 3 hours or less generally permits a free change but not a refund based on time difference alone.","major":"A departure or arrival change of more than 3 hours, cancellation without suitable protection, misconnection, routing/airport change, added connection, or other listed condition may permit refund and free change.","reissueCode":"DUE SKCH","reissuePlacement":"Enter DUE SKCH in the Endorsement Box when reissue is required.","reissueApplies":"Eligible Air Canada 014 tickets under the public travel-agent schedule-change policy.","reissueConditions":["Action TK segments within 14 days of notification or 7 business days before departure, whichever is earlier.","Reissue for flight-number or date changes. A time-only change normally does not require reissue.","Once the offered protection is accepted, later voluntary changes or refunds follow the fare rules."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"air-china":{"name":"Air China","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"air-france":{"name":"Air France","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current AF/KL schedule-change entry","reissuePlacement":"Follow the current Air France/KLM indirect-channel fulfillment instructions for 057 ticket stock.","reissueApplies":"Tickets on Air France 057 stock covered by the joint Air France/KLM policy.","reissueConditions":["Only one involuntary reissue is permitted for the same cancelled or delayed flight after airline reaccommodation.","Use the joint Air France/KLM policy and verify the current endorsement and waiver entry in the agent portal."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"air-new-zealand":{"name":"Air New Zealand","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"ana-all-nippon-airways":{"name":"ANA All Nippon Airways","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"SKCHG FLT NO./DATE/ROUTING","reissuePlacement":"Enter the waiver at the beginning of the Endorsement/Restriction Box, before the original endorsement.","reissueApplies":"Eligible ANA 205 tickets issued by agencies in the listed Americas points of sale.","reissueConditions":["Remove affected schedule-change segments.","Self-rebook only to the same carrier, same sector, and same booking class. Otherwise contact ANA Sales Support.","Reissue at least 24 hours before departure.","Only one change is permitted per schedule change. Process as an even exchange."],"refundCode":"WITSKC","refundPlacement":"Use WITSKC for an eligible self-refund of an ANA-operated flight under the applicable point-of-sale policy. Contact ANA for other-airline operated flights.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"asiana-airlines":{"name":"Asiana Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"austrian-airlines":{"name":"Austrian Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current Lufthansa Group SKCHG/INVOL policy","reissuePlacement":"Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.","reissueApplies":"Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.","reissueConditions":["Determine whether the case is a planned SKCHG or short-term INVOL.","Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.","Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"british-airways":{"name":"British Airways","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"brussels-airlines":{"name":"Brussels Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current Lufthansa Group SKCHG/INVOL policy","reissuePlacement":"Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.","reissueApplies":"Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.","reissueConditions":["Determine whether the case is a planned SKCHG or short-term INVOL.","Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.","Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"cathay-pacific":{"name":"Cathay Pacific","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"emirates-airlines":{"name":"Emirates Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"etihad-airways":{"name":"Etihad Airways","domestic":"02H:00M or 120 minutes","international":"02H:00M or 120 minutes","minor":"Under the policy effective July 15, 2025, a time adjustment below the listed condition may not qualify based on time difference alone. Check whether the change causes a misconnection or another qualifying condition.","major":"One free change or refund of unused sectors may apply when departure moves 120 minutes earlier, delay is 120 minutes or more, or the adjustment causes a misconnection.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Ensure the itinerary and ticket details are fully aligned.","Revalidate or reissue as required.","Verify the current waiver and ticket entry in Etihad Hub before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"eva-airways":{"name":"EVA Airways","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"finnair":{"name":"Finnair","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"iberia":{"name":"Iberia","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"icelandair":{"name":"Icelandair","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"japan-airlines":{"name":"Japan Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"klm-royal-dutch-airlines":{"name":"KLM-Royal Dutch Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current AF/KL schedule-change entry","reissuePlacement":"Follow the current Air France/KLM indirect-channel fulfillment instructions for 074 ticket stock.","reissueApplies":"Tickets on KLM 074 stock covered by the joint Air France/KLM policy.","reissueConditions":["Only one involuntary reissue is permitted for the same cancelled or delayed flight after airline reaccommodation.","Use the joint Air France/KLM policy and verify the current endorsement and waiver entry in the agent portal."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"korean-air":{"name":"Korean Air","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"latam-airlines":{"name":"LATAM Airlines","domestic":"Departure earlier by 16M+ or later by 31M+","international":"Departure earlier by 16M+ or later by 31M+","minor":"An advance up to 15 minutes or delay up to 30 minutes generally has no flexibility based on time alone.","major":"An advance of 16 minutes or more, delay of 31 minutes or more, cancellation, missed connection, destination/stop noncompliance, downgrade, or published exception may qualify.","reissueCode":"SKCHG + affected flight/route/date/status","reissuePlacement":"Use LATAM Trade’s current Endorsement format and add the required OSI documenting Pax acceptance.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Maintain origin and destination within ticket validity for a no-penalty/no-fare-difference change.","Nearby airports up to 500 km may be permitted under the published matrix.","Always verify the latest LATAM Trade matrix before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"lufthansa":{"name":"Lufthansa","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current Lufthansa Group SKCHG/INVOL policy","reissuePlacement":"Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.","reissueApplies":"Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.","reissueConditions":["Determine whether the case is a planned SKCHG or short-term INVOL.","Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.","Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"philippine-airlines":{"name":"Philippine Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"qantas-airways":{"name":"Qantas Airways","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current Qantas schedule-change ticketing instruction","reissuePlacement":"Revalidate or reissue according to the applicable Qantas Agency Connect scenario.","reissueApplies":"Depends on whether the affected flight is QF-operated, QF-marketed, another-airline operated, and whether the ticket is on Qantas stock.","reissueConditions":["Rebook on the same day, one day either side, or the next available flight as allowed.","Use the same cabin and class, or the lowest available class in the same cabin where permitted.","All impacted tickets must be revalidated or reissued."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"qatar-airways":{"name":"Qatar Airways","domestic":"02H:00M or 120 minutes","international":"02H:00M or 120 minutes","minor":"A cancellation reprotected within 2 hours may not qualify under the public trade guideline based on time alone.","major":"A time change beyond 2 hours, misconnection, qualifying terminal/class/frequency/airport change, cancellation, or discontinued service may qualify.","reissueCode":"Verify current QR waiver entry","reissuePlacement":"Follow the current Qatar Airways trade ticket-reissue guideline for 157 stock.","reissueApplies":"Eligible confirmed ticketed segments on Qatar Airways 157 stock, subject to current policy.","reissueConditions":["Action and, if needed, reissue no later than 2 days before affected departure.","New travel may be permitted within 21 days of the original date.","Use QR-operated flights, generally same or lowest class in the same cabin, within permitted routing limits."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"scandinavian-airlines":{"name":"Scandinavian Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"singapore-airlines":{"name":"Singapore Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"SC YYXXX/DDMMYY","reissuePlacement":"Enter the SC note in the Endorsement Box of the reissued ticket.","reissueApplies":"Eligible ticketed PNRs on Singapore Airlines 618 ticket stock under the applicable local trade policy.","reissueConditions":["If automated protection is accepted, reissue to the revised itinerary with no additional collection.","For a misconnection, rebook a later flight or within plus/minus 7 days.","Keep the same marketing and operating carrier as the original ticket.","Verify current local Trade Support guidance before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"swiss":{"name":"SWISS","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Follow current Lufthansa Group SKCHG/INVOL policy","reissuePlacement":"Use the current Lufthansa Group reissue, refund, and waiver entries for the applicable carrier and ticket stock.","reissueApplies":"Covered by the Lufthansa Group travel-agent schedule-change and irregularity policy.","reissueConditions":["Determine whether the case is a planned SKCHG or short-term INVOL.","Follow the current Lufthansa Group standard rebooking options and ticket-entry examples.","Verify the live Lufthansa Group eXperts policy before processing because entries and permitted carriers vary by scenario."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"tap-portugal":{"name":"TAP Portugal","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"thai-airways-intl":{"name":"Thai Airways Intl","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"turkish-airlines":{"name":"Turkish Airlines","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"virgin-atlantic":{"name":"Virgin Atlantic","domestic":"05H:00M or 300 minutes","international":"05H:00M or 300 minutes","minor":"A time change below 5 hours does not meet the public significant-time threshold unless it causes a qualifying misconnection or another listed condition.","major":"Cancellation, a time change of 5 hours or more, qualifying misconnection, or routing that adds a stop may qualify.","reissueCode":"Follow current Virgin Atlantic schedule-change instruction","reissuePlacement":"Verify whether Virgin Atlantic already revalidated the ticket. If not, follow the Partner Hub reissue entry for VS 932 stock.","reissueApplies":"Ticketed itineraries on Virgin Atlantic 932 ticket stock.","reissueConditions":["Review the PNR because Virgin Atlantic may revalidate the ticket automatically.","Use the Partner Hub rules for standard schedule changes, cancellations, interline tickets, and IROPs."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"virgin-australia-international":{"name":"Virgin Australia International","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]},"westjet":{"name":"WestJet","domestic":"Information not publicly confirmed","international":"Information not publicly confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Information not publicly confirmed. Do not guess a waiver or endorsement entry.","reissueApplies":"Verify validating carrier, ticket stock, point of sale, operating carrier, and booking channel directly with the airline.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear public official source during the latest review. Call the airline or check the airline's authenticated travel-agent portal before processing."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund eligibility and the required waiver or refund entry directly with the airline.","important":["Do not process an involuntary reissue or refund using an unverified code.","Policies may vary by point of sale, ticket stock, route, codeshare, NDC/GDS channel, and time before departure."]}};
+    let addedRequestedAirlines = false;
+    Object.entries(requestedAirlineCatalog).forEach(([key, policy]) => {
+      const alreadyExistsByName = Object.values(policies).some(existing =>
+        existing && existing.name && existing.name.toLowerCase() === policy.name.toLowerCase()
+      );
+      if (!policies[key] && !alreadyExistsByName) {
+        policies[key] = policy;
+        addedRequestedAirlines = true;
+      }
+    });
+    if (addedRequestedAirlines) {
+      localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+    }
+
+    // Official-policy review patches, verified September 14, 2026.
+    // These corrections are applied after saved data loads so stale browser data cannot restore outdated policy text.
+    const officialReviewPatches20260914 = {"aegean-airlines":{"domestic":"Current public agency threshold not confirmed","international":"Current public agency threshold not confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","reissueCode":"Call airline / check agent portal","reissuePlacement":"Do not use the older publicly indexed 2020 instruction as current authority. Verify the live Aegean agent policy.","reissueApplies":"Current public official agency applicability was not sufficiently clear.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","An older public document refers to cancelled flights or time changes over one hour, but it is dated 2020 and must not be used as current authority."],"refundCode":"Call airline / check agent portal","refundPlacement":"Confirm refund authority and processing directly with Aegean or its authenticated agent portal.","important":["Do not rely on an expired or old COVID-era rebooking document.","Verify ticket stock, operating carrier, point of sale, and whether the change is advance schedule change or day-of-travel disruption."]},"air-canada":{"domestic":"Refund threshold: more than 03H:00M; free change available for qualifying schedule changes","international":"Refund threshold: more than 03H:00M; free change available for qualifying schedule changes","minor":"A departure-time change of three hours or less does not qualify for refund based on time difference alone, but a free change may be available. Other qualifying conditions can still apply.","major":"Refund and free-change eligibility may apply for departure or arrival changes over three hours, cancellation without suitable protection, protection over three hours from original time, routing or airport change, added connection, same-day connection failure, or misconnection.","reissueCode":"DUE SKCH","reissuePlacement":"Enter DUE SKCH in the Endorsement Box when a reissue is required.","reissueApplies":"Eligible 014 tickets and scenarios listed in Air Canada's current public travel-agent Schedule Change Policy; schedule change is defined as occurring more than 48 hours before original departure.","reissueConditions":["Action TK segments within 14 days of notification or seven business days before departure, whichever is earlier.","A flight-number change requires reissue. A time-only change normally does not require reissue.","Once the Pax accepts protection, later voluntary changes or refunds follow the fare rules.","For Air Canada schedule changes on other-airline ticket stock, follow the issuing carrier's policy."],"refundCode":"Follow Air Canada refund procedure","refundPlacement":"Use the current Air Canada agent refund procedure for eligible 014 tickets; verify the live Agent Reference before processing.","important":["Policy applies to 014 ticket stock and listed eligible scenarios.","A better connection or earlier arrival that does not cause a misconnection is excluded.","Verify the live Air Canada Connex or Agent Reference before ticketing."]},"cathay-pacific":{"domestic":"Current 2026 public threshold not confirmed","international":"Current 2026 public threshold not confirmed","minor":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","major":"Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","reissueCode":"Call airline / check Cathay Agents","reissuePlacement":"The publicly indexed detailed document found was for 2025 and expired December 31, 2025. Do not use its waiver or refund code as current 2026 authority.","reissueApplies":"Verify current Cathay 160-ticket policy by point of sale in Cathay Agents.","reissueConditions":["Detailed schedule-change threshold, waiver code, and agency reissue instructions were not available in a sufficiently clear, current public official source during the review completed September 14, 2026. Check the airline's authenticated travel-agent portal or call the airline before processing.","Current rules may differ by point of sale. Confirm booking class, travel window, rerouting, and waiver entry before reissue."],"refundCode":"Call airline / check Cathay Agents","refundPlacement":"Confirm the current refund waiver and field in Cathay Agents for the ticket's point of sale.","important":["Do not use a 2025 TAM code or other expired regional code for a 2026 transaction.","Verify point of sale, 160 ticket stock, and current regional policy."]},"etihad-airways":{"domestic":"02H:00M or 120 minutes","international":"02H:00M or 120 minutes","minor":"A change below 120 minutes does not qualify based on time alone, unless it creates a misconnection or another qualifying condition under the current policy.","major":"Involuntary options apply to a departure 120 minutes earlier or later, misconnection, cancellation, denied boarding from an outstation due to disruption, or equipment downgrade to a lower cabin.","reissueCode":"Verify current Etihad Hub waiver entry","reissuePlacement":"Align the itinerary and ticket, then revalidate or reissue as required using the current Etihad Hub instruction.","reissueApplies":"Eligible Etihad 607 documents under the Standard Schedule Change Policy, for changes occurring more than 72 hours before scheduled departure.","reissueConditions":["Use the cities shown on the ticket for the entire origin and destination.","First use another Etihad-operated flight; then the permitted codeshare or interline options in the policy order.","Use the same or lowest available booking class in the same cabin and brand where required; certain EY codeshares may permit up to four classes higher in the same cabin and brand.","Complete involuntary rebooking by the later of 60 days from notification or 60 days before original departure.","Confirm the live policy because Etihad Hub lists the Standard Schedule Change Policy as updated June 5, 2026."],"refundCode":"Verify current Etihad Hub refund entry","refundPlacement":"For an eligible case, confirm the required refund entry in the current Etihad Hub policy before processing.","important":["One free change or refund of unused sectors may apply under the qualifying conditions.","Policy can differ for changes published on or before July 15, 2025."]},"finnair":{"domestic":"Refund eligibility: schedule change of at least 01H:00M","international":"Refund eligibility: schedule change of at least 01H:00M","minor":"For a schedule change under one hour, refund eligibility follows the ticket fare rules. Finnair may still ask the Pax to accept changes longer than five minutes.","major":"A full refund of unused portions is available when the Pax chooses not to travel due to a schedule change of at least one hour, an unsuitable cancellation alternative, no alternative, a delay over five hours, or qualifying overbooking.","reissueCode":"Check Finnair Easy standard disruption guidelines","reissuePlacement":"Detailed agency reissue entries are maintained in Finnair Easy. Verify the live handling-reservations instructions before processing.","reissueApplies":"Subject to Finnair ticket stock, operating carrier, booking channel, and current standard disruption guidelines.","reissueConditions":["Use Finnair Easy for the current agency handling and refund procedure.","If the agency-specific instruction is unavailable, contact Finnair agency support rather than guessing a waiver entry."],"refundCode":"Follow Finnair Easy refund procedure","refundPlacement":"Use the current Finnair Easy refund workflow for agency-issued tickets.","important":["The one-hour figure is a public refund-eligibility threshold, not a complete agency self-reissue authority.","Confirm GDS or NDC handling in Finnair Easy."]},"singapore-airlines":{"domestic":"01H:00M or 60 minutes","international":"01H:00M or 60 minutes","minor":"A time change under 60 minutes does not qualify based on time alone unless minimum connecting time is no longer met, the flight is cancelled without an alternative, or the original cabin is unavailable due to aircraft change.","major":"For the B2B policy effective September 15, 2025, self-reaccommodation without penalties may apply to an involuntary arrival or departure change of 60 minutes or more, a sub-60-minute change causing an MCT failure, cancellation with no alternative, or loss of the original cabin due to aircraft change.","reissueCode":"SC YYXXX/DDMMYY","reissuePlacement":"Enter the SC note in the Endorsement Box of the reissued ticket, using the affected flight number and date format required by the applicable local Agent 360 policy.","reissueApplies":"Eligible Singapore Airlines 618 ticket stock under the applicable local B2B policy.","reissueConditions":["If automated protection is accepted, reissue the revised itinerary with no additional collection.","For a misconnection, rebook a later flight or within the permitted window in the applicable local policy.","Maintain the original marketing and operating carrier unless the policy or Trade Support authorizes otherwise.","Verify the current local Agent 360 instruction because endorsement date formatting and support procedures may vary by market."],"refundCode":"Follow current Agent 360 refund instruction","refundPlacement":"Confirm refund eligibility and processing in the applicable local Agent 360 policy.","important":["Eligibility criteria were revised effective September 15, 2025.","Applies to 618 ticket stock and qualifying conditions."]},"virgin-australia-international":{"domestic":"See current Virgin Australia Schedule Change Policy","international":"See current Virgin Australia Schedule Change Policy","minor":"The current public Agency Hub provides a dedicated Schedule Change Policy, but the detailed threshold and ticket entries were not reliably extractable in this review. Check the live PDF before processing.","major":"Use the current Virgin Australia Schedule Change Policy for planned changes and the applicable commercial policy for active events.","reissueCode":"Check current Virgin Australia Agency Hub policy","reissuePlacement":"Follow the live Schedule Change Policy PDF for the validating ticket, channel, and affected operating carrier.","reissueApplies":"Depends on Virgin Australia ticket stock and whether the itinerary is 100% VA operated or includes an eligible partner-operated flight.","reissueConditions":["Determine whether the ticket contains only VA-operated flights or partner-operated sectors.","Use the current options for alternate travel, travel credit, or refund in the Agency Hub policy.","Contact Virgin Australia Industry Support if the PDF does not clearly cover the itinerary."],"refundCode":"Check current Virgin Australia Agency Hub policy","refundPlacement":"Follow the current Schedule Change Policy and applicable refund procedure.","important":["Do not guess a threshold or waiver code.","Virgin Australia publishes the policy publicly, but the live PDF must be checked for exact servicing details."]}};
+    Object.entries(officialReviewPatches20260914).forEach(([key, patch]) => {
+      if (policies[key]) Object.assign(policies[key], patch);
+    });
+    localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+
+    const select = document.getElementById("airlineSelect");
+    const content = document.getElementById("policyContent");
+    const placeholder = document.getElementById("placeholder");
+    const airlineSearch = document.getElementById("airlineSearch");
+    const airlineSearchResults = document.getElementById("airlineSearchResults");
+    const airlineDropdownButton = document.getElementById("airlineDropdownButton");
+
+    function selectAirline(key) {
+      if (!key || !policies[key]) return;
+      select.value = key;
+      airlineSearch.value = policies[key].name;
+      airlineSearchResults.classList.remove("show");
+      airlineSearch.setAttribute("aria-expanded", "false");
+      renderPolicy(key);
+      document.getElementById("editPanel").classList.remove("show");
+    }
+
+    function renderAirlineSearchResults(query = "") {
+      const normalized = query.trim().toLowerCase();
+      const matches = Object.entries(policies)
+        .filter(([key, policy]) => !normalized || policy.name.toLowerCase().includes(normalized))
+        .sort((a, b) => a[1].name.localeCompare(b[1].name));
+
+      if (!matches.length) {
+        airlineSearchResults.innerHTML = '<div class="airline-search-empty">No matching airline found.</div>';
+      } else {
+        airlineSearchResults.innerHTML = matches.map(([key, policy]) =>
+          `<button class="airline-search-result" type="button" role="option" data-airline-key="${key}">${policy.name}</button>`
+        ).join("");
+      }
+      airlineSearchResults.classList.add("show");
+      airlineSearch.setAttribute("aria-expanded", "true");
+    }
+
+    function refreshAirlineOptions(selectedKey = "") {
+      const firstOption = '<option value="">Choose an airline...</option>';
+      const options = Object.entries(policies)
+        .sort((a, b) => a[1].name.localeCompare(b[1].name))
+        .map(([key, policy]) => `<option value="${key}">${policy.name}</option>`)
+        .join("");
+      select.innerHTML = firstOption + options;
+      if (selectedKey && policies[selectedKey]) select.value = selectedKey;
+    }
+
+
+
+    function code(value) {
+      return `<span class="code">${value}</span>`;
+    }
+
+    function renderPolicy(key) {
+      if (!key || !policies[key]) {
+        content.style.display = "none";
+        placeholder.style.display = "block";
+        content.innerHTML = "";
+        return;
+      }
+
+      const p = policies[key];
+      content.innerHTML = `
+        <h2 class="airline-title">${p.name}</h2>
+
+        <section class="section">
+          <h3>${p.headerThreshold || "Schedule Change Rebooking Threshold"}</h3>
+          <div class="threshold-grid">
+            <div class="threshold-item"><span>Domestic</span><strong>${p.domestic}</strong></div>
+            <div class="threshold-item"><span>International</span><strong>${p.international}</strong></div>
+          </div>
+        </section>
+
+        <section class="section minor">
+          <h3>${p.headerMinor || "Minor Schedule Change"}</h3>
+          <p>${p.minor}</p>
+        </section>
+
+        <section class="section major">
+          <h3>${p.headerMajor || "Major or Significant Schedule Change"}</h3>
+          <p>${p.major}</p>
+        </section>
+
+        <section class="section">
+          <h3>${p.headerRebook || "Option 1: Pax Wants to Rebook"}</h3>
+          <p><strong>Reissue code or instruction:</strong> ${code(p.reissueCode)}</p>
+          <p><strong>Placement:</strong> ${p.reissuePlacement}</p>
+          <p><strong>Applies to:</strong> ${p.reissueApplies}</p>
+          <h4>${p.headerConditions || "Reissuing Conditions"}</h4>
+          <ul>${p.reissueConditions.map(item => `<li>${item}</li>`).join("")}</ul>
+        </section>
+
+        <section class="section">
+          <h3>${p.headerRefund || "Option 2: Pax Wants a Refund"}</h3>
+          <p><strong>Refund waiver code:</strong> ${code(p.refundCode)}</p>
+          <p><strong>Placement or process:</strong> ${p.refundPlacement}</p>
+        </section>
+
+        <section class="section warning">
+          <h3>${p.headerImportant || "Important"}</h3>
+          <ul>${p.important.map(item => `<li>${item}</li>`).join("")}</ul>
+        </section>
+      `;
+
+      placeholder.style.display = "none";
+      content.style.display = "block";
+    }
+
+    select.addEventListener("change", event => {
+      const key = event.target.value;
+      airlineSearch.value = key && policies[key] ? policies[key].name : "";
+      airlineSearchResults.classList.remove("show");
+      renderPolicy(key);
+      document.getElementById("editPanel").classList.remove("show");
+    });
+
+    airlineSearch.addEventListener("input", event => {
+      select.value = "";
+      renderAirlineSearchResults(event.target.value);
+    });
+    airlineSearch.addEventListener("focus", event => {
+      renderAirlineSearchResults(event.target.value);
+    });
+    airlineDropdownButton.addEventListener("click", () => {
+      if (airlineSearchResults.classList.contains("show")) {
+        airlineSearchResults.classList.remove("show");
+        airlineSearch.setAttribute("aria-expanded", "false");
+      } else {
+        renderAirlineSearchResults(airlineSearch.value);
+        airlineSearch.focus();
+      }
+    });
+    airlineSearch.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        airlineSearchResults.classList.remove("show");
+        airlineSearch.setAttribute("aria-expanded", "false");
+      }
+      if (event.key === "Enter") {
+        event.preventDefault();
+        const firstResult = airlineSearchResults.querySelector("[data-airline-key]");
+        if (firstResult) selectAirline(firstResult.dataset.airlineKey);
+      }
+      if (event.key === "ArrowDown") {
+        const firstResult = airlineSearchResults.querySelector("[data-airline-key]");
+        if (firstResult) firstResult.focus();
+      }
+    });
+    airlineSearchResults.addEventListener("click", event => {
+      const result = event.target.closest("[data-airline-key]");
+      if (result) selectAirline(result.dataset.airlineKey);
+    });
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".airline-combobox")) {
+        airlineSearchResults.classList.remove("show");
+        airlineSearch.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Static GitHub Pages login. This controls access to editing in the interface,
+    // but it is not secure server-side authentication because the site is a static HTML file.
+    const EDITOR_USERNAME = "POLPOL";
+    const EDITOR_PASSWORD = "POLPOL";
+    let isEditorLoggedIn = sessionStorage.getItem("airlineEditorLoggedIn") === "true";
+    let isEditModeOn = sessionStorage.getItem("airlineEditModeOn") === "true";
+    let pendingProtectedAction = null;
+
+    const loginOverlay = document.getElementById("loginOverlay");
+    const loginUsername = document.getElementById("loginUsername");
+    const loginPassword = document.getElementById("loginPassword");
+    const loginError = document.getElementById("loginError");
+    const loginStatus = document.getElementById("loginStatus");
+    const loginButton = document.getElementById("loginButton");
+    const logoutButton = document.getElementById("logoutButton");
+    const viewOnlyControls = document.getElementById("viewOnlyControls");
+    const adminControls = document.getElementById("adminControls");
+    const adminNotice = document.getElementById("adminNotice");
+    const editModeButton = document.getElementById("editModeButton");
+
+    function updateLoginUI() {
+      loginStatus.textContent = isEditorLoggedIn ? "Editor unlocked" : "Editor locked";
+      loginStatus.classList.toggle("logged-in", isEditorLoggedIn);
+      loginButton.style.display = isEditorLoggedIn ? "none" : "inline-block";
+      logoutButton.style.display = isEditorLoggedIn ? "inline-block" : "none";
+      viewOnlyControls.style.display = isEditorLoggedIn ? "none" : "flex";
+      adminControls.style.display = isEditorLoggedIn ? "flex" : "none";
+      adminNotice.style.display = isEditorLoggedIn ? "block" : "none";
+      document.body.classList.toggle("edit-mode-on", isEditorLoggedIn && isEditModeOn);
+      editModeButton.textContent = isEditModeOn ? "Edit Mode: ON" : "Edit Mode: OFF";
+      editModeButton.classList.toggle("on", isEditModeOn);
+      document.getElementById("editActionPanel").style.display = isEditorLoggedIn && isEditModeOn ? "block" : "none";
+      if (!isEditorLoggedIn) {
+        document.getElementById("adminToolsPanel").style.display = "none";
+        document.getElementById("settingsButton").textContent = "Settings";
+      }
+    }
+
+    function requestLogin(action) {
+      if (isEditorLoggedIn) {
+        if (action) action();
+        return;
+      }
+      pendingProtectedAction = action || null;
+      loginError.textContent = "";
+      loginUsername.value = "";
+      loginPassword.value = "";
+      loginOverlay.classList.add("show");
+      setTimeout(() => loginUsername.focus(), 50);
+    }
+
+    function closeLogin() {
+      loginOverlay.classList.remove("show");
+      pendingProtectedAction = null;
+    }
+
+    function submitLogin() {
+      if (loginUsername.value === EDITOR_USERNAME && loginPassword.value === EDITOR_PASSWORD) {
+        isEditorLoggedIn = true;
+        isEditModeOn = false;
+        sessionStorage.setItem("airlineEditorLoggedIn", "true");
+        sessionStorage.setItem("airlineEditModeOn", "false");
+        const action = pendingProtectedAction;
+        loginOverlay.classList.remove("show");
+        pendingProtectedAction = null;
+        updateLoginUI();
+        if (action) action();
+      } else {
+        loginError.textContent = "Incorrect username or password.";
+        loginPassword.value = "";
+        loginPassword.focus();
+      }
+    }
+
+    const fields = {
+      headerThreshold: document.getElementById("editHeaderThreshold"),
+      headerMinor: document.getElementById("editHeaderMinor"),
+      headerMajor: document.getElementById("editHeaderMajor"),
+      headerRebook: document.getElementById("editHeaderRebook"),
+      headerRefund: document.getElementById("editHeaderRefund"),
+      headerImportant: document.getElementById("editHeaderImportant"),
+      headerConditions: document.getElementById("editHeaderConditions"),
+      domestic: document.getElementById("editDomestic"),
+      international: document.getElementById("editInternational"),
+      minor: document.getElementById("editMinor"),
+      major: document.getElementById("editMajor"),
+      reissueCode: document.getElementById("editReissueCode"),
+      refundCode: document.getElementById("editRefundCode"),
+      reissuePlacement: document.getElementById("editReissuePlacement"),
+      reissueApplies: document.getElementById("editReissueApplies"),
+      reissueConditions: document.getElementById("editReissueConditions"),
+      refundPlacement: document.getElementById("editRefundPlacement"),
+      important: document.getElementById("editImportant")
+    };
+
+    function openSiteTextEditor() {
+      if (!isEditorLoggedIn) return requestLogin(openSiteTextEditor);
+      document.getElementById("siteTitleInput").value = siteText.title;
+      document.getElementById("siteReviewedInput").value = siteText.reviewed;
+      document.getElementById("siteSubtitleInput").value = siteText.subtitle;
+      document.getElementById("beforeHeaderInput").value = siteText.beforeHeader;
+      document.getElementById("beforeTextInput").value = siteText.beforeText;
+      document.getElementById("placeholderInput").value = siteText.placeholder;
+      document.getElementById("feedbackInput").value = siteText.feedback || defaultSiteText.feedback;
+      document.getElementById("footerInput").value = siteText.footer;
+      document.getElementById("siteTextStatus").textContent = "";
+      document.getElementById("siteTextOverlay").classList.add("show");
+    }
+    function closeSiteTextEditor() {
+      document.getElementById("siteTextOverlay").classList.remove("show");
+    }
+    function saveSiteText() {
+      siteText = {
+        title: document.getElementById("siteTitleInput").value.trim() || defaultSiteText.title,
+        reviewed: document.getElementById("siteReviewedInput").value.trim(),
+        subtitle: document.getElementById("siteSubtitleInput").value.trim(),
+        beforeHeader: document.getElementById("beforeHeaderInput").value.trim(),
+        beforeText: document.getElementById("beforeTextInput").value.trim(),
+        placeholder: document.getElementById("placeholderInput").value.trim(),
+        feedback: document.getElementById("feedbackInput").value.trim() || defaultSiteText.feedback,
+        footer: document.getElementById("footerInput").value.trim()
+      };
+      localStorage.setItem("airlineSiteTextV1", JSON.stringify(siteText));
+      applySiteText();
+      document.getElementById("siteTextStatus").textContent = "Website text saved in this browser.";
+      setTimeout(closeSiteTextEditor, 500);
+    }
+
+    function makeAirlineKey(name) {
+      const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "airline";
+      let key = base;
+      let count = 2;
+      while (policies[key]) key = `${base}-${count++}`;
+      return key;
+    }
+
+    function openAddAirline() {
+      if (!isEditorLoggedIn) return requestLogin(openAddAirline);
+      document.getElementById("newAirlineName").value = "";
+      document.getElementById("newDomestic").value = "";
+      document.getElementById("newInternational").value = "";
+      document.getElementById("newReissueCode").value = "";
+      document.getElementById("newRefundCode").value = "";
+      document.getElementById("addAirlineError").textContent = "";
+      document.getElementById("addAirlineOverlay").classList.add("show");
+      setTimeout(() => document.getElementById("newAirlineName").focus(), 50);
+    }
+
+    function closeAddAirline() {
+      document.getElementById("addAirlineOverlay").classList.remove("show");
+    }
+
+    function saveNewAirline() {
+      const name = document.getElementById("newAirlineName").value.trim();
+      const domestic = document.getElementById("newDomestic").value.trim();
+      const international = document.getElementById("newInternational").value.trim();
+      const reissueCode = document.getElementById("newReissueCode").value.trim();
+      const refundCode = document.getElementById("newRefundCode").value.trim();
+      const error = document.getElementById("addAirlineError");
+
+      if (!name) {
+        error.textContent = "Airline name is required.";
+        return;
+      }
+      if (Object.values(policies).some(policy => policy.name.toLowerCase() === name.toLowerCase())) {
+        error.textContent = "This airline already exists.";
+        return;
+      }
+
+      const key = makeAirlineKey(name);
+      policies[key] = {
+        name,
+        headerThreshold: "Schedule Change Rebooking Threshold",
+        headerMinor: "Minor Schedule Change",
+        headerMajor: "Major or Significant Schedule Change",
+        headerRebook: "Option 1: Pax Wants to Rebook",
+        headerRefund: "Option 2: Pax Wants a Refund",
+        headerImportant: "Important",
+        headerConditions: "Reissuing Conditions",
+        domestic: domestic || "Not yet entered",
+        international: international || "Not yet entered",
+        minor: "Enter the minor schedule-change conditions for this airline.",
+        major: "Enter the major or significant schedule-change conditions for this airline.",
+        reissueCode: reissueCode || "Verify current airline policy",
+        reissuePlacement: "Enter the applicable placement instructions.",
+        reissueApplies: "Verify the validating carrier, ticket stock, and current airline policy.",
+        reissueConditions: ["Enter the airline's current reissuing conditions."],
+        refundCode: refundCode || "Verify current airline policy",
+        refundPlacement: "Enter the applicable refund placement or processing instructions.",
+        important: ["Verify all information against the airline's current official agency policy before processing."]
+      };
+
+      localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+      refreshAirlineOptions(key);
+      airlineSearch.value = name;
+      renderPolicy(key);
+      closeAddAirline();
+      alert(`${name} was added. Turn on Edit Mode and select Edit Selected Airline to complete all policy details.`);
+    }
+
+    function deleteSelectedAirline() {
+      if (!isEditorLoggedIn) return requestLogin(deleteSelectedAirline);
+      if (!isEditModeOn) {
+        alert("Turn on Edit Mode first.");
+        return;
+      }
+
+      const key = select.value;
+      if (!key || !policies[key]) {
+        alert("Select an airline to delete.");
+        return;
+      }
+
+      const airlineName = policies[key].name;
+      const firstConfirmation = confirm(
+        `Delete ${airlineName}? This removes the airline and all saved policy details from this browser.`
+      );
+      if (!firstConfirmation) return;
+
+      const typedName = prompt(
+        `To confirm permanent deletion, type the airline name exactly as shown:
+
+${airlineName}`
+      );
+      if (typedName !== airlineName) {
+        alert("Deletion canceled because the airline name did not match.");
+        return;
+      }
+
+      delete policies[key];
+      localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+      refreshAirlineOptions();
+      airlineSearch.value = "";
+      renderPolicy("");
+      document.getElementById("editPanel").classList.remove("show");
+      alert(`${airlineName} was deleted. Download the updated HTML and upload it to GitHub to publish the deletion for everyone.`);
+    }
+
+    function openEditor() {
+      const key = select.value;
+      if (!key) { alert("Select an airline first."); return; }
+      const p = policies[key];
+      const headerDefaults = {
+        headerThreshold: "Schedule Change Rebooking Threshold",
+        headerMinor: "Minor Schedule Change",
+        headerMajor: "Major or Significant Schedule Change",
+        headerRebook: "Option 1: Pax Wants to Rebook",
+        headerRefund: "Option 2: Pax Wants a Refund",
+        headerImportant: "Important",
+        headerConditions: "Reissuing Conditions"
+      };
+      Object.keys(fields).forEach(name => {
+        const value = p[name] || headerDefaults[name] || "";
+        fields[name].value = Array.isArray(value) ? value.join("\n") : value;
+      });
+      document.getElementById("editStatus").textContent = "";
+      document.getElementById("editPanel").classList.add("show");
+      document.getElementById("editPanel").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function saveEditor() {
+      const key = select.value;
+      if (!key) return;
+      Object.keys(fields).forEach(name => {
+        policies[key][name] = ["reissueConditions", "important"].includes(name)
+          ? fields[name].value.split("\n").map(v => v.trim()).filter(Boolean)
+          : fields[name].value.trim();
+      });
+      localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+      renderPolicy(key);
+      document.getElementById("editStatus").textContent = "Changes saved in this browser.";
+    }
+
+    function downloadBlob(content, type, filename) {
+      const blob = new Blob([content], {type});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function exportData() {
+      downloadBlob(JSON.stringify({policies, siteText}, null, 2), "application/json", "airline-policy-backup.json");
+    }
+
+    function exportUpdatedHtml() {
+      try {
+        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(policies))));
+        const encodedSiteText = btoa(unescape(encodeURIComponent(JSON.stringify(siteText))));
+        let updated = document.documentElement.outerHTML;
+        const pattern = /const embeddedPolicyData = "[^"]*";/;
+        if (!pattern.test(updated)) throw new Error("Embedded policy data marker was not found.");
+        updated = updated.replace(pattern, 'const embeddedPolicyData = "' + encoded + '";');
+        updated = updated.replace(/const embeddedSiteTextData = "[^"]*";/, 'const embeddedSiteTextData = "' + encodedSiteText + '";');
+        updated = "<!DOCTYPE html>\n" + updated;
+        downloadBlob(updated, "text/html", "index.html");
+        alert("Updated HTML exported successfully as index.html.");
+      } catch (error) {
+        console.error(error);
+        alert("The HTML export could not be completed. Please use Export Backup, or try again in Chrome or Edge.");
+      }
+    }
+
+
+    document.getElementById("editButton").addEventListener("click", () => requestLogin(() => {
+      if (!isEditModeOn) { alert("Turn on Edit Mode first."); return; }
+      openEditor();
+    }));
+    document.getElementById("deleteAirlineButton").addEventListener("click", deleteSelectedAirline);
+    document.getElementById("saveEditButton").addEventListener("click", () => requestLogin(saveEditor));
+    document.getElementById("cancelEditButton").addEventListener("click", () => document.getElementById("editPanel").classList.remove("show"));
+    document.getElementById("exportDataButton").addEventListener("click", () => {
+      if (!isEditorLoggedIn) return requestLogin(exportData);
+      exportData();
+    });
+    document.getElementById("exportHtmlButton").addEventListener("click", () => {
+      if (!isEditorLoggedIn) return requestLogin(exportUpdatedHtml);
+      exportUpdatedHtml();
+    });
+    document.getElementById("importDataButton").addEventListener("click", () => requestLogin(() => document.getElementById("importFile").click()));
+    document.getElementById("importFile").addEventListener("change", event => {
+      const file = event.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (imported.policies) {
+            policies = imported.policies;
+            if (imported.siteText) siteText = {...defaultSiteText, ...imported.siteText};
+          } else {
+            policies = imported;
+          }
+          localStorage.setItem("airlinePolicyDataV1", JSON.stringify(policies));
+          localStorage.setItem("airlineSiteTextV1", JSON.stringify(siteText));
+          applySiteText();
+          refreshAirlineOptions();
+          renderPolicy("");
+          alert("Policy backup imported successfully.");
+        } catch (error) { alert("The selected file is not a valid policy backup."); }
+      };
+      reader.readAsText(file);
+      event.target.value = "";
+    });
+    document.getElementById("editSiteTextButton").addEventListener("click", openSiteTextEditor);
+    document.getElementById("saveSiteTextButton").addEventListener("click", saveSiteText);
+    document.getElementById("cancelSiteTextButton").addEventListener("click", closeSiteTextEditor);
+    document.getElementById("addAirlineButton").addEventListener("click", openAddAirline);
+    document.getElementById("saveNewAirlineButton").addEventListener("click", saveNewAirline);
+    document.getElementById("cancelNewAirlineButton").addEventListener("click", closeAddAirline);
+    document.getElementById("newAirlineName").addEventListener("keydown", event => {
+      if (event.key === "Enter") saveNewAirline();
+    });
+
+    document.getElementById("topLoginButton").addEventListener("click", () => requestLogin());
+    document.getElementById("settingsButton").addEventListener("click", () => {
+      const panel = document.getElementById("adminToolsPanel");
+      const isOpen = panel.style.display !== "none";
+      panel.style.display = isOpen ? "none" : "block";
+      document.getElementById("settingsButton").textContent = isOpen ? "Settings" : "Close Settings";
+    });
+    editModeButton.addEventListener("click", () => {
+      isEditModeOn = !isEditModeOn;
+      sessionStorage.setItem("airlineEditModeOn", String(isEditModeOn));
+      if (!isEditModeOn) document.getElementById("editPanel").classList.remove("show");
+      updateLoginUI();
+    });
+    document.getElementById("topLogoutButton").addEventListener("click", () => logoutButton.click());
+
+    loginButton.addEventListener("click", () => requestLogin());
+    logoutButton.addEventListener("click", () => {
+      isEditorLoggedIn = false;
+      isEditModeOn = false;
+      sessionStorage.removeItem("airlineEditorLoggedIn");
+      sessionStorage.removeItem("airlineEditModeOn");
+      document.getElementById("editPanel").classList.remove("show");
+      updateLoginUI();
+    });
+    document.getElementById("loginSubmitButton").addEventListener("click", submitLogin);
+    document.getElementById("loginCancelButton").addEventListener("click", closeLogin);
+    loginPassword.addEventListener("keydown", event => { if (event.key === "Enter") submitLogin(); });
+    loginUsername.addEventListener("keydown", event => { if (event.key === "Enter") loginPassword.focus(); });
+
+    document.getElementById("settingsSearch").addEventListener("input", event => {
+      const query = event.target.value.trim().toLowerCase();
+      const match = Object.entries(policies).find(([key, policy]) =>
+        policy.name.toLowerCase().includes(query)
+      );
+      if (query && match) {
+        select.value = match[0];
+        renderPolicy(match[0]);
+      }
+    });
+    applySiteText();
+    refreshAirlineOptions();
+    updateLoginUI();
+  </script>
+</body>
+</html>
