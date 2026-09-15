@@ -71,13 +71,20 @@
         "Use a Delta-marketed and Delta-operated or Delta Connection flight. Within 72 hours, limited same-day JV partner options may apply.",
         "Reissue as an even exchange, add OSI DL REISSUE DUE TO DL INVOL, and notify the Pax. No waiver code is required."
       ],
-      "refundCode": "No permanent public universal refund code confirmed",
-      "refundPlacement": "Follow Delta's schedule-change refund procedure and required PNR documentation.",
+      "refundCode": "OSI DL REFUND PER DL INVOL",
+      "refundPlacement": "Add the OSI message to the PNR, Before refund according to Delta's policy.",
       "important": [
         "Verify the ticket issue date because older tickets may have different thresholds.",
         "The qualifying time conditions specifically include an earlier departure or later arrival.",
         "Check whether Delta already revalidated the ticket before reissuing."
-      ]
+      ],
+      "headerThreshold": "Schedule Change Rebooking Threshold",
+      "headerMinor": "Minor Schedule Change",
+      "headerMajor": "Major or Significant Schedule Change",
+      "headerRebook": "Option 1: Pax Wants to Rebook",
+      "headerRefund": "Option 2: Pax Wants a Refund",
+      "headerImportant": "Important",
+      "headerConditions": "Reissuing Conditions"
     },
     "hawaiian": {
       "name": "Hawaiian Airlines",
